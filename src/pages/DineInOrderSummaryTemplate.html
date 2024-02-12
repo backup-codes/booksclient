@@ -1,0 +1,116 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style='margin:0px;padding:0px;width:100vw;overflow-x:hidden;box-sizing:border-box;background-color: azure;'>
+    <div style='max-width: 300px;
+margin-left:auto;
+margin-right:auto;background-color: #fff;padding: 30px 20px'>
+        <h2 style='text-align: center;
+    color: #393939;
+    margin: 20px 0px;'>Order Summary</h4>
+            <div style='margin-top: 40px;'>
+                <div>
+                    <h3 style='text-align:center;text-transform:uppercase;margin:10px 0px;'>[Restaurant Name]</h3>
+
+                    <div style='text-align: center;'>
+                        <p style='margin:0px;'>
+                            {addressItem.building}, {addressItem.city},
+                            {addressItem.pin},{addressItem.district},
+                            {addressItem.state}
+                        </p>
+
+                        <p style='margin:0px;'>Phone: {addressItem.phone}</p>
+                    </div>
+                </div>
+
+                <div style='font-size: 12px;width: 100%;
+    display: flex;
+    justify-content: space-between;margin: 30px 0px;'>
+                    <div>
+                        <p style='margin: 0px;'>BILL NO: [billId]</p>
+                        <p style='margin: 0px;'>DATE&TIME: [DateTime]</p>
+                    </div>
+                    <div>
+                        <p style='margin: 0px;'>TABLE NO: 01</p>
+                        <p style='margin: 0px;'></p>CAPTAIN ID: 1234</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <table style='width: 100%;table-layout: fixed;'>
+                    <tr style='font-size: 14px;;'>
+                        <th style='width: 50%;'>Menu Item</th>
+                        <th style='width: 20%;text-align: center;'>Quantity</th>
+                        <th style='width: 15%;text-align: center;'>Price</th>
+                        <th style='width: 15%;text-align: center;'>Value</th>
+                    </tr>
+                    <tr style='font-size: 12px;'>
+                        <td style='word-wrap: break-word;padding:5px 0px;'>[item] [item] [item] [item] [item] [item]
+                            [item]
+
+                        </td>
+                        <td style='word-wrap: break-word;padding:5px 0px;text-align: center;'>x [13]</td>
+                        <td style='word-wrap: break-word;padding:5px 0px;text-align: center;'>₹ [000]</td>
+                        <td style='word-wrap: break-word;padding:5px 0px;text-align: center;'>₹ [000]</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style='text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;margin: 40px 0px 20px 0px'>
+                <p style='margin:0px;'>SubTotal Amount</p>
+                <p style='margin:0px;'>
+                    ₹ [000]
+                </p>
+            </div>
+
+            <div style='font-size: 12px;text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;'>
+                <p style='margin:0px;'>CGst</p>
+                <p style='margin:0px;'>
+                    ₹ 0000
+                </p>
+            </div>
+
+            <div style='font-size: 12px;text-align: center;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;'>
+                <p style='margin:0px;'>SGst</p>
+                <p style='margin:0px;'>
+                    ₹ 0000
+                </p>
+            </div>
+
+            <div style='text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;margin-bottom: 50px;'>
+                <p style='margin:0px;'>Total Amount</p>
+                <p style='margin:0px;'>
+                    <MdCurrencyRupee />
+                    ₹ 0000
+                </p>
+            </div>
+            <div>
+                <p style='margin: 0px; font-size: 12px;'>POS ID: 1234</p>
+            </div>
+            <div style='margin: 30px 0px;'>
+                <h4 style='text-transform: uppercase;text-align: center;margin: 10px;'>thank you for your visit!</h4>
+                <p style='text-transform: uppercase;text-align: center;margin: 0px;font-size: 14px'>have a nice day!</p>
+            </div>
+    </div>
+    </div>
+</body>
+
+</html>

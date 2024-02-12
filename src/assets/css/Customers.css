@@ -1,0 +1,63 @@
+/* Add this CSS to your stylesheet or in a style tag */
+/* .actions {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+} */
+
+/* .actions a {
+    display: inline-block;
+    padding: 4px 6px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    font-size: 14px;  
+} */
+
+
+/* .action .action-list{
+    box-shadow: 0 2px 4px rgba(200, 225, 255, 0.7);
+    
+  } */
+
+  
+  /* Optional: If you want to style the modal backdrop */
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+   
+  /* .actions a.delete {
+    color: #e74c3c;
+ font-weight:  bolder;
+  }
+  .actions a.view {
+    color: #2B8DFF;
+  }
+  .actions a.edit {
+    color: #2B8DFF ;
+  }   */
+
+
+/* .link-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; 
+    box-shadow: 0 4px 8px rgba(200, 225, 255, 0.7);
+    border-radius: 8px; 
+  } */
+   
+
+  
+  
+  /* Optional: If you want to style the modal backdrop */
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+  
+
+
+  

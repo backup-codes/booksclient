@@ -1,0 +1,344 @@
+* {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+  color: #9e9ea4;
+  font-family: 'Comfortaa', sans-serif !important;
+}
+
+/* scrollbar style start  */
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00418D;
+}
+
+/* scrollbar style end  */
+
+/* antd modal mask style start  */
+.ant-modal-mask{
+  backdrop-filter: blur(6px) !important;
+  background-color: transparent !important;
+}
+/* antd modal mask style end  */
+
+/* antd modal mask style start  */
+.ant-select{
+  width: 100%;
+  height: 50px;
+}
+.ant-select-selector{
+  border: 1px solid #A7CFFF !important;
+}
+/* antd modal mask style end  */
+
+.icon {
+  vertical-align: middle;
+  font-size: 20px;
+  margin-top: -4px;
+  margin-right: 14px;
+}
+
+.icon_header {
+  vertical-align: middle;
+  line-height: 1px;
+  font-size: 26px;
+}
+
+.icon_header {
+  margin-right: 10px;
+}
+
+.close_icon {
+  color: red;
+  margin-left: 30px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.pos-grid-container{
+  display: grid;
+  grid-template-columns: 290px 1fr 1fr 1fr;
+  grid-template-rows: 0.2fr 3fr;
+  grid-template-areas: 'header header header header'
+    'sidebar main main main';
+  height: 100vh;
+  background-color: #C8E1FF;
+}
+
+/* Header start */
+
+.pos-header{
+  grid-area: header;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 40px;
+}
+
+.menu-icon {
+  width: 30px;
+  height: 30px;
+  color:#00418D;
+  display: none;
+}
+/* Header End */
+
+/* sidebar start */
+
+#sidebar {
+  grid-area: sidebar;
+  width: 100%;
+  height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color:#F5F9FF;
+  margin-left: 20px;
+  border-radius: 25px 0px 0px 25px;
+}
+.sidebar-content{
+  overflow-y: scroll;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+}
+
+.sidebar_title {
+  margin: 20px 0px;
+  display: none;
+}
+
+.sidebar_title>span {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.sidebar-responsive {
+  width: 50% !important;
+  height: 100vh !important;
+  margin: 0px !important;
+  background-color: #C8E1FF !important;
+  border-radius: 0px !important;
+  display: inline !important;
+  position: absolute;
+  transition: margin 0.5s !important;
+  z-index: 12 !important;
+  /* we want z-index of the sidebar higher so that the charts are not showing over the sidebar on small screens*/
+}
+
+/* sidebar end */
+
+/* Main start */
+
+/* test code start  */
+.page{
+  grid-area: main;
+  height: calc(100vh - 90px);
+  background-color:#F5F9FF;
+  border-radius: 0px 25px 25px 0px;
+  margin-right: 20px;
+}
+.page-content{
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 30px 20px 0px 50px;
+}
+
+/* Main End */
+
+
+/*  RESPONSIVENESS START*/
+/* 768px >= Medium <= 1024 start*/
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+  .pos-grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 3fr;
+    grid-template-areas:
+      'header'
+      'main';
+  }
+
+  /* header start  */
+  .pos-header{
+      padding: 40px 40px !important;
+  }
+  /* header end  */
+
+  /* sidebar start  */
+  #sidebar {
+    margin-left: -450px;
+    transition: margin 0.5s;
+  }
+
+  .close_icon{
+  color: #00418D;
+ }
+
+  .menu-icon {
+    display: inline;
+  }
+  
+  .sidebar_title{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .sidebar_title>span {
+    display: inline;
+  }
+
+   /* sidebar end  */
+
+   /* pages start  */
+.page{
+  height: calc(100vh - 110px);
+  border-radius: 25px;
+  margin: 0px 20px;
+}
+   /* pages end  */
+}
+
+/* 768px >= Medium <= 1024 end */
+
+/* Small <= 768px start*/
+@media screen and (max-width: 768px) {
+
+  .pos-grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 3fr;
+    grid-template-areas:
+      'header'
+      'main';
+  }
+
+  
+  /* header start  */
+  /* .pos-header{
+      padding: 40px 40px !important;
+  } */
+
+  .menu-icon {
+    width: 20px;
+    height: 20px;
+    display: inline;
+  }
+  /* header end  */
+
+  /* sidebar start  */
+  #sidebar {  
+    margin-left: -450px;
+    transition: margin 0.5s;
+  }
+
+  .sidebar-responsive{
+    width: 70% !important;
+    height: 100vh !important;
+    background-color: #00418D !important;
+    border-radius: 0px 25px 25px 0px !important;
+  } 
+  
+ .close_icon{
+  color: #fff;
+ }
+
+ .sidebar-content{
+  width: 100% !important;
+  padding: 0px !important;
+ }
+ .sidebar-data{
+  margin: 0px !important;
+  /* padding: 0px 20px; */
+ }
+  .sidebar_title{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .sidebar_title>span {
+    display: inline;
+  }
+  .title-icon, .sidebar-icon, .logout-div button, .logout-div span{
+    background-color: transparent !important;
+  }
+  .title-icon{
+    padding-right: 0px !important;
+  }
+  .dashboard-title-icon{
+    margin-bottom: 0px !important;
+    background-color: transparent !important;
+    text-align: start !important;
+  }
+  .logout-div{
+    height: 10vh !important;
+    padding: 0px 20px !important;
+  }
+.main-menu-link{
+  padding: 0px 20px;
+}
+  .main-menu-link.active {
+    color: #fff ;
+    background-color: #C8E1FF;
+  }
+   .main-menu-link.active .sidebar-icon{
+color: #000;
+   }
+   .main-menu-link.active  .dashboard-title-icon{
+color: #000;
+   }
+
+   /* sidebar end  */
+
+
+   /* pages start  */
+.page{
+  height: calc(100vh - 75px);
+  border-radius: 25px;
+  margin: 0px 10px;
+}
+.page-content{
+  padding:20px;
+}
+
+/* pages end  */
+
+.main-cards {
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.charts {
+  grid-template-columns: 1fr;
+  margin-top: 30px;
+}
+}
+
+/* Small <= 768px end */
+
+/* RESPONSIVENESS END */
