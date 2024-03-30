@@ -306,7 +306,7 @@ const TakeAwaySummeryModal = (props) => {
   // });
 
   const { gstAmount, grandTotal } = calculateGST(selectedOrder.Amount);
-
+  console.log(selectedOrder, "selectedOrder");
   return (
     <>
       <Wrapper centered {...props}>
