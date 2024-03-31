@@ -40,6 +40,7 @@ const PosMenu = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [orderMode, setOrderMode] = useState("");
   const location = useLocation();
+  console.log("location", location);
   const { orderData, HoldMenu } = location.state || {};
   const navigate = useNavigate();
 
@@ -409,7 +410,10 @@ const PosMenu = () => {
               cancelButtonProps={{ style: { display: "none" } }}
               okButtonProps={{ style: { display: "none" } }}
             >
-              <h4 className="title">Order Summary</h4>
+              <h4 className="title">
+                KOT : {orderData?.orderMode}
+                (orderId: {orderData?.orderId})
+              </h4>
               <div className="form-div">
                 <div className="summary-items">
                   <div className="heading d-flex justify-content-between">
@@ -420,6 +424,7 @@ const PosMenu = () => {
                     .concat(HoldMenu ? HoldMenu : [])
                     .filter((item) => item.orderedQuantity > 0)
                     .map((item, index) => {
+                      console.log("selectedItems", selectedItems);
                       return (
                         <div key={index} className="single-item">
                           <p>{item.item && item.item}</p>

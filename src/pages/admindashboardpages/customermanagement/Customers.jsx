@@ -8,55 +8,51 @@ import { Link } from "react-router-dom";
 import CustomerDetailModal from "../../../components/admindashboardcomponents/CustomerDetailModal";
 import { RestaurantAdminApi } from "../../../config/global";
 import axios from "axios";
-import '../../../assets/css/Customers.css'
+import "../../../assets/css/Customers.css";
 // import { restaurantOwnerAxiosInstance } from "../../../config/apiInterceptor";
-import { CustomerDetailssearchQuery, getEmployeesData } from "../../../config/routeApi/owner";
+import {
+  CustomerDetailssearchQuery,
+  getEmployeesData,
+} from "../../../config/routeApi/owner";
 import Uploading from "../../../components/loaders/Uploading";
 const Customers = () => {
   //modal useState start
   const [modalShow, setModalShow] = useState(false);
   // modal useState End
   const [customerDetails, setCustomerDetails] = useState([]);
-  const [viewdata, setSeletedviewdata] = useState()
-  const [indicator, SetIndicator] = useState(false)
-  const [searchquery, setSearchQuery] = useState("")
+  const [viewdata, setSeletedviewdata] = useState();
+  const [indicator, SetIndicator] = useState(false);
+  const [searchquery, setSearchQuery] = useState("");
   const [isUploading, setUploading] = useState(false);
   const [showFilteredData, setShowFilteredData] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
 
-
   async function search(query) {
-
     try {
-
-      setSearchQuery(query)
+      setSearchQuery(query);
       if (query) {
-      console.log(query);
-      
-      const response = await CustomerDetailssearchQuery(query)
-      // setCustomerDetails(response.data.data);
-      if (response.data.success) {
-        setShowFilteredData(true);
-        setFilteredData(response.data.data);
-      }
+        console.log(query);
 
-    } else {
-       
-      // If search query is empty, reset the filtered data and show opening data
-      setShowFilteredData(false);
-      setFilteredData([]);
-    }
+        const response = await CustomerDetailssearchQuery(query);
+        // setCustomerDetails(response.data.data);
+        if (response.data.success) {
+          setShowFilteredData(true);
+          setFilteredData(response.data.data);
+        }
+      } else {
+        // If search query is empty, reset the filtered data and show opening data
+        setShowFilteredData(false);
+        setFilteredData([]);
+      }
     } catch (error) {
       console.log(error);
     }
-
-
   }
 
   useEffect(() => {
     const handleEmployData = async () => {
       try {
-        const response = await getEmployeesData()
+        const response = await getEmployeesData();
         setCustomerDetails(response.data.customerData);
       } catch (error) {
         console.log(error);
@@ -66,10 +62,9 @@ const Customers = () => {
   }, [indicator]);
 
   async function handleView(customerdata) {
-    setSeletedviewdata(customerdata)
-    setModalShow(true)
+    setSeletedviewdata(customerdata);
+    setModalShow(true);
   }
-
 
   const tableHeading = [
     {
@@ -98,7 +93,6 @@ const Customers = () => {
     },
   ];
 
-
   // async function handleDelete(Id) {
 
   //   setUploading(true)
@@ -112,27 +106,19 @@ const Customers = () => {
   //     SetIndicator(!indicator)
   //   }
 
-
   // }
-
-
-
-
 
   return (
     <>
-      {isUploading ? (<Uploading isUploading={isUploading} />) : null}
+      {isUploading ? <Uploading isUploading={isUploading} /> : null}
 
       <Wrapper className="page">
         <div className="page-content">
           <div className="page-header">
             <h3>Customer Details</h3>
-
           </div>
 
-
           <div className="search-and-btn">
-
             <div className="search-div">
               <div className="search-input-group">
                 <IoSearchSharp className="search-icon" />
@@ -142,14 +128,16 @@ const Customers = () => {
                   className="search-bar"
                   onChange={(e) => search(e.target.value)}
                 />
-
               </div>
               {/* <button className="search-btn">Search</button> */}
             </div>
 
             <Button variant="dark" className="fw-normal">
               <FaPlus className="plus-icon" />
-              <Link className="page-header-btn" to="/dashboard/customer-management/add-customer">
+              <Link
+                className="page-header-btn"
+                to="/dashboard/customer-management/add-customer"
+              >
                 Add Customer
               </Link>
             </Button>
@@ -164,131 +152,114 @@ const Customers = () => {
                     return <th key={item.id}>{item.title}</th>;
                   })}
                   <th>Actions</th>
-
                 </tr>
               </thead>
 
               {!showFilteredData && (
-              <tbody>
-                {customerDetails.map((item, i) => {
-                  return (
-                    <tr key={item._id}>
-                      <td>{i + 1}</td>
-                      <td>{item.customer}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.email}</td>
-                      <td>{item.address}</td>
-                      <td>{item.limit}</td>
-                      <td>{item.balance}</td>
-                      <td>
-                        <div className="actions">
+                <tbody>
+                  {customerDetails.map((item, i) => {
+                    return (
+                      <tr key={item._id}>
+                        <td>{i + 1}</td>
+                        <td>{item.customer}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.email}</td>
+                        <td>{item.address}</td>
+                        <td>{item.balance}</td>
+                        <td>{item.limit}</td>
 
-                          <div className="link-wrapper">
-                            <Link
-                              className="action-list"
-                              onClick={() => handleView(item)}>
-                              <a className="view">
-                                View
-                              </a>
-                            </Link>
-                          </div>
+                        <td>
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() => handleView(item)}
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
 
-                          <div className="link-wrapper">
-                            <Link className="action-list" to={`/dashboard/customer-management/update-customer/${item._id}`}>
-                              <a className="edit">
-                                Edit
-                              </a>
-                            </Link>
-                          </div>
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                to={`/dashboard/customer-management/update-customer/${item._id}`}
+                              >
+                                <a className="edit">Edit</a>
+                              </Link>
+                            </div>
 
-                          {/* <div className="link-wrapper" onClick={() => handleDelete(item._id)}>
+                            {/* <div className="link-wrapper" onClick={() => handleDelete(item._id)}>
                             <a className="delete">
                               Delete
                             </a>
                           </div> */}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )}
 
+              {showFilteredData && (
+                <tbody>
+                  {filteredData.map((item, i) => {
+                    return (
+                      <tr key={item._id}>
+                        <td>{i + 1}</td>
+                        <td>{item.customer}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.email}</td>
+                        <td>{item.address}</td>
+                        <td>{item.limit}</td>
+                        <td>{item.balance}</td>
+                        <td>
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() => handleView(item)}
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
 
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            )}
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                to={`/dashboard/customer-management/update-customer/${item._id}`}
+                              >
+                                <a className="edit">Edit</a>
+                              </Link>
+                            </div>
 
-              
-{showFilteredData && (
-              <tbody>
-
-                {filteredData.map((item, i) => {
-                 
-
-            
-                  return (
-                    <tr key={item._id}>
-                    <td>{i + 1}</td>
-                    <td>{item.customer}</td>
-                    <td>{item.phone}</td>
-                    <td>{item.email}</td>
-                    <td>{item.address}</td>
-                    <td>{item.limit}</td>
-                    <td>{item.balance}</td>
-                    <td>
-                      <div className="actions">
-
-                        <div className="link-wrapper">
-                          <Link
-                            className="action-list"
-                            onClick={() => handleView(item)}>
-                            <a className="view">
-                              View
-                            </a>
-                          </Link>
-                        </div>
-
-                        <div className="link-wrapper">
-                          <Link className="action-list" to={`/dashboard/customer-management/update-customer/${item._id}`}>
-                            <a className="edit">
-                              Edit
-                            </a>
-                          </Link>
-                        </div>
-
-                        {/* <div className="link-wrapper" onClick={() => handleDelete(item._id)}>
+                            {/* <div className="link-wrapper" onClick={() => handleDelete(item._id)}>
                           <a className="delete">
                             Delete
                           </a>
                         </div> */}
-
-
-                      </div>
-                    </td>
-                  </tr>
-                  );
-                })}
-              </tbody>
-            )}
-
-
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              )}
             </Table>
           </div>
         </div>
 
-        {
-
-          viewdata ? (
-            <CustomerDetailModal
-              customerData={viewdata}
-              open={modalShow}
-              onCancel={() => setModalShow(false)}
-              cancelButtonProps={{ style: { display: "none" } }}
-              okButtonProps={{ style: { display: "none" } }}
-            />) : null
-        }
+        {viewdata ? (
+          <CustomerDetailModal
+            customerData={viewdata}
+            open={modalShow}
+            onCancel={() => setModalShow(false)}
+            cancelButtonProps={{ style: { display: "none" } }}
+            okButtonProps={{ style: { display: "none" } }}
+          />
+        ) : null}
       </Wrapper>
-
     </>
-
   );
 };
 export default Customers;

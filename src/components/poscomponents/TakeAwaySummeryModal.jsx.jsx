@@ -311,7 +311,7 @@ const TakeAwaySummeryModal = (props) => {
     <>
       <Wrapper centered {...props}>
         <div>
-          <h4 className="title">Order Summary</h4>
+          <h4 className="title">Retail Invoice</h4>
           <div className="form-div">
             <div className="bill-header">
               <div className="restaurant-header">

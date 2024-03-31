@@ -57,9 +57,8 @@ const AddNewMenuItem = () => {
   }, []);
 
   const handleItemImage = (e) => {
-    
     const image = e.target.files[0];
-    
+
     if (image) {
       setItemImage(image);
       const reader = new FileReader();
@@ -81,7 +80,7 @@ const AddNewMenuItem = () => {
     setUploading(false);
     console.log(response, "response");
     if (response.data.success) {
-      // navigate("/dashboard/menu-management/menu");
+      navigate("/dashboard/menu-management/menu");
       toastSuccess(response.data.message);
     } else {
       toastError(response.data.message);
@@ -134,7 +133,6 @@ const AddNewMenuItem = () => {
                   <Form.Item
                     name="Cuisine"
                     rules={[{ required: true, message: "Select a Cuisine" }]}
-
                   >
                     <Select
                       showSearch="single"
@@ -161,8 +159,9 @@ const AddNewMenuItem = () => {
 
                   <Form.Item
                     name="subCuisine"
-                    rules={[{ required: true, message: "Select a Sub-Cuisine" }]}
-
+                    rules={[
+                      { required: true, message: "Select a Sub-Cuisine" },
+                    ]}
                   >
                     <Select
                       showSearch="single"
@@ -245,18 +244,17 @@ const AddNewMenuItem = () => {
                   </label>
                   <br />
 
-                            <Form.Item
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Missing Quantity",
-                                },
-                              ]}
-                              name={"Quantity"}
-                            >
-                              <Input placeholder="Quantity" type="Number" />
-                            </Form.Item>
-                     
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: "Missing Quantity",
+                      },
+                    ]}
+                    name={"Quantity"}
+                  >
+                    <Input placeholder="Quantity" type="Number" />
+                  </Form.Item>
                 </div>
               </div>
 
@@ -286,12 +284,15 @@ const AddNewMenuItem = () => {
                             >
                               <Input placeholder="Actual Price" type="Number" />
                             </Form.Item>
-                            <Form.Item name={[name, "discountPrice"]} rules={[
+                            <Form.Item
+                              name={[name, "discountPrice"]}
+                              rules={[
                                 {
                                   required: true,
                                   message: "Discount Price",
                                 },
-                              ]}>
+                              ]}
+                            >
                               <Input
                                 placeholder="Discount Price"
                                 type="Number"
@@ -487,25 +488,22 @@ const AddNewMenuItem = () => {
                       onChange={handleItemImage}
                     /> */}
 
-                    
                     <Form.Item
                       rules={[
                         {
                           required: true,
                           message: "Missing Item Image",
                         },
-                        
                       ]}
-                              name={"Image"}
+                      name={"Image"}
                     >
-                      
-                    <Input
-                      type="file"
-                      id="itemImage"
-                      accept="image/jpeg, image/png"
-                      onChange={handleItemImage}
-                     />
-                      </Form.Item>
+                      <Input
+                        type="file"
+                        id="itemImage"
+                        accept="image/jpeg, image/png"
+                        onChange={handleItemImage}
+                      />
+                    </Form.Item>
                     <span className="upload-icon">
                       <FaUpload />
                     </span>

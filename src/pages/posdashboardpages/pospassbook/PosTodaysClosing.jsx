@@ -21,21 +21,24 @@ import DominationModal from "../../../components/poscomponents/DominationModal";
 
 //backend integration imports
 import { restaurantPosAxiosInstance } from "../../../config/apiInterceptor";
-import { TodaysClosingDateFilter, searchTodayClosing } from "../../../config/routeApi/pos";
+import {
+  TodaysClosingDateFilter,
+  searchTodayClosing,
+} from "../../../config/routeApi/pos";
 import { toastError } from "../../../helpers/helpers";
 
 const PosTodaysClosing = () => {
   const [openingdata, setOpeningdata] = useState([]);
- 
+
   const [dominationModalShow, setDominationModalShow] = useState(false);
-  const [filteredDomination, setfilteredDenominations] = useState()
-  
+  const [filteredDomination, setfilteredDenominations] = useState();
+
   const [showFilteredData, setShowFilteredData] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [viewdata, setSeletedviewdata] = useState();
   const [isClosingAdded, setIsClosingAdded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
   const {
     register,
@@ -43,103 +46,82 @@ const PosTodaysClosing = () => {
     formState: { errors },
   } = useForm();
 
-
-
   const handleDateFilter = async (data) => {
     try {
-
-
       const response = await TodaysClosingDateFilter(data);
-
 
       if (response.data.success) {
         setFilteredData(response.data.data);
         setShowFilteredData(true);
       } else {
-
-        toastError(response.data.message)
+        toastError(response.data.message);
       }
-
-
-
-
     } catch (error) {
       console.error(error);
     }
   };
 
-
-
-
   useEffect(() => {
     (async function fetchClosingData() {
-      const response = await restaurantPosAxiosInstance.get(
-        `getClosingData`)
+      const response = await restaurantPosAxiosInstance.get(`getClosingData`);
 
       if (response.data.success) {
-        console.log(response.data.data," i am data ka data")
-        setOpeningdata(response.data.data)
+        console.log(response.data.data, " i am data ka data");
+        setOpeningdata(response.data.data);
       } else {
-
-        toastError(response.data.message)
-
+        toastError(response.data.message);
       }
-
-    })()
+    })();
 
     const isAdded = async () => {
       try {
-        const {data} = await restaurantPosAxiosInstance.get('isPassBookReportsAdded')
+        const { data } = await restaurantPosAxiosInstance.get(
+          "isPassBookReportsAdded"
+        );
 
         if (data.success) {
-         setIsClosingAdded(data.isClosingExist) 
-        }  
-
+          setIsClosingAdded(data.isClosingExist);
+        }
       } catch (err) {
         console.log(err);
       }
-    }
-    isAdded()
-
+    };
+    isAdded();
   }, []);
-
 
   async function search(query) {
     try {
       console.log(query);
-  
+
       // Use the query parameter directly instead of searchQuery
       setSearchQuery(query);
-  
+
       if (query) {
         const response = await searchTodayClosing(query);
-  
+
         if (response.data.success) {
           setShowFilteredData(true);
           setFilteredData(response.data.data);
         }
       } else {
-       
         // If search query is empty, reset the filtered data and show opening data
         setShowFilteredData(false);
         setFilteredData([]);
       }
-  
+
       console.log(showFilteredData, "filtered");
     } catch (error) {
       console.log(error);
     }
   }
 
-
   async function handleView(data) {
-   
     setSeletedviewdata(data);
     setModalShow(true);
   }
   async function handleViewDomination(data) {
-    setfilteredDenominations(data)
-    setDominationModalShow(true)
+    setfilteredDenominations(data);
+    setDominationModalShow(true);
   }
 
   return (
@@ -148,24 +130,31 @@ const PosTodaysClosing = () => {
         <div className="page-header">
           <h3>Closing Report</h3>
 
-          <Button disabled={isClosingAdded} variant="dark" className="fw-normal" >
+          <Button
+            //  disabled={isClosingAdded}
+            variant="dark"
+            className="fw-normal"
+          >
             <Link
               className="page-header-btn"
               to="/pos-dashboard/pos-passbook/add-todays-closing"
             >
-              <FaPlus className="plus-icon" />Add Closing Report
+              <FaPlus className="plus-icon" />
+              Add Closing Report
             </Link>
           </Button>
-
         </div>
 
         <div className="search-and-btn">
           <div className="search-div">
             <div className="search-input-group">
               <IoSearchSharp className="search-icon" />
-              <input type="text" placeholder="Search"
+              <input
+                type="text"
+                placeholder="Search"
                 onInput={(e) => search(e.target.value)}
-                className="search-bar" />
+                className="search-bar"
+              />
             </div>
             {/* <button className="search-btn">Search</button> */}
           </div>
@@ -258,11 +247,7 @@ const PosTodaysClosing = () => {
           </div> */}
 
           {/* Add Closing Report Button */}
-
-
-
         </div>
-
 
         <div className="table-div">
           <Table striped bordered hover className="table">
@@ -278,7 +263,6 @@ const PosTodaysClosing = () => {
 
             {!showFilteredData && (
               <tbody>
-
                 {openingdata.map((item, i) => {
                   const dateObject = new Date(item.date);
                   const formattedDate = dateObject.toLocaleDateString();
@@ -305,48 +289,44 @@ const PosTodaysClosing = () => {
           "No denominations"
         )}
       </td> */}
-                      <td>{
-                        <div className="actions">
-
-                          <div className="link-wrapper">
-                            <Link
-                              className="action-list"
-                              onClick={() => handleViewDomination(filteredDenominations)}>
-                              <a className="view">
-                                View
-                              </a>
-                            </Link>
+                      <td>
+                        {
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() =>
+                                  handleViewDomination(filteredDenominations)
+                                }
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-
-                      }</td>
-                      <td>{
-                        <div className="actions">
-
-                          <div className="link-wrapper">
-                            <Link
-                              className="action-list"
-                              onClick={() => handleView(item.bill)}>
-                              <a className="view">
-                                View
-                              </a>
-                            </Link>
+                        }
+                      </td>
+                      <td>
+                        {
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() => handleView(item.bill)}
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-
-                      }</td>
+                        }
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             )}
 
-
-
-
             {showFilteredData && (
               <tbody>
-
                 {filteredData.map((item, i) => {
                   const dateObject = new Date(item.date);
                   const formattedDate = dateObject.toLocaleDateString();
@@ -360,78 +340,63 @@ const PosTodaysClosing = () => {
                       <td>{i + 1}</td>
                       <td>{formattedDate}</td>
                       <td>{item.totalAmount}</td>
-                      <td>{
-                        <div className="actions">
-
-                          <div className="link-wrapper">
-                            <Link
-                              className="action-list"
-                              onClick={() => handleViewDomination(filteredDenominations)}>
-                              <a className="view">
-                                View
-                              </a>
-                            </Link>
+                      <td>
+                        {
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() =>
+                                  handleViewDomination(filteredDenominations)
+                                }
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-
-                      }</td>
-                      <td>{
-                        <div className="actions">
-
-                          <div className="link-wrapper">
-                            <Link
-                              className="action-list"
-                              onClick={() => handleView(item.bill)}>
-                              <a className="view">
-                                View
-                              </a>
-                            </Link>
+                        }
+                      </td>
+                      <td>
+                        {
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() => handleView(item.bill)}
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-
-                      }</td>
+                        }
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             )}
-
-
-
           </Table>
         </div>
       </div>
 
+      {filteredDomination ? (
+        <DominationModal
+          filteredDenominations={filteredDomination}
+          show={dominationModalShow}
+          onHide={() => setDominationModalShow(false)}
+        />
+      ) : null}
 
-      {
-
-        filteredDomination ? (
-          <DominationModal
-            filteredDenominations={filteredDomination}
-            show={dominationModalShow}
-            onHide={() => setDominationModalShow(false)}
-          />) : null
-      }
-
-
-{
-
-viewdata ? (
-  <ViewModal
-  viewData={viewdata}
-  open={modalShow}
-  onCancel={() => setModalShow(false)}
-  cancelButtonProps={{ style: { display: "none" } }}
-  okButtonProps={{ style: { display: "none" } }}
-  />) : null
-}
+      {viewdata ? (
+        <ViewModal
+          viewData={viewdata}
+          open={modalShow}
+          onCancel={() => setModalShow(false)}
+          cancelButtonProps={{ style: { display: "none" } }}
+          okButtonProps={{ style: { display: "none" } }}
+        />
+      ) : null}
     </Wrapper>
-
-    
   );
 };
 export default PosTodaysClosing;
-
-
-
-

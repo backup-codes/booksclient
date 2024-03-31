@@ -103,6 +103,7 @@ const PosAddTodaysOpeningBalance = () => {
                     type="date"
                     id="date"
                     defaultValue={currentDate}
+                    readOnly
                   />
                   {errors.date && errors.date.type === "required" && (
                     <label className="error-msg text-danger">
