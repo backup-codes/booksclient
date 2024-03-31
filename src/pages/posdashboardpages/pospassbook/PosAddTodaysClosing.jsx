@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import Uploading from "../../../components/loaders/Uploading";
 import { toastError, toastSuccess } from "../../../helpers/helpers";
 import { GetClosingFieldData } from "../../../config/routeApi/pos";
-import { Image } from 'antd';
+import { Image } from "antd";
 
 const PosAddTodaysClosing = () => {
   const navigate = useNavigate();
@@ -29,19 +29,19 @@ const PosAddTodaysClosing = () => {
     if (images) {
       setImage(images);
       const previews = [];
-  
+
       Array.from(images).forEach((image) => {
         const reader = new FileReader();
-  
+
         reader.onload = function (e) {
           previews.push(e.target.result);
-  
+
           // Check if all images have been processed
           if (previews.length === images.length) {
             setAadharImagePreview(previews);
           }
         };
-  
+
         reader.readAsDataURL(image);
       });
     }
@@ -54,11 +54,19 @@ const PosAddTodaysClosing = () => {
 
     const formData = new FormData();
 
-    const { Totalorder, date, totalAmount, totalAmountBromagOrders, totalAmountOthersOrder, totalAmountSwiggyOrder, totalAmountZomatoOrder, totalamounttakeaway, totalorderupi } = data;
+    const {
+      Totalorder,
+      date,
+      totalAmount,
+      totalAmountBromagOrders,
+      totalAmountOthersOrder,
+      totalAmountSwiggyOrder,
+      totalAmountZomatoOrder,
+      totalamounttakeaway,
+      totalorderupi,
+    } = data;
 
-   
     for (let i = 0; i < image.length; i++) {
-      
       formData.append("image", image[i]);
     }
 
@@ -94,8 +102,6 @@ const PosAddTodaysClosing = () => {
     } else {
       toastError(response.data.message);
     }
-
-
   };
 
   const denominations = [
@@ -131,7 +137,6 @@ const PosAddTodaysClosing = () => {
     async function getFieldData() {
       const { data } = await GetClosingFieldData();
 
-
       const {
         message,
         success,
@@ -146,20 +151,15 @@ const PosAddTodaysClosing = () => {
         todaysTotalOrders,
       } = data;
 
-
-
-
       console.log(data, "heloooo resposne");
-      setValue( "Totalorder",todaysTotalOrders);
-      setValue("totalAmount",todaysTotalAmount);
-      setValue("totalAmountSwiggyOrder",todaysTotalAmountSwiggyOrders);
-      setValue("totalAmountZomatoOrder",todaysTotalAmountZomatoOrders);
-      setValue("totalAmountBromagOrders",todaysTotalAmountBromagOrders);
-      setValue("totalamounttakeaway",todaysTotalAmountTakeAway);
-      setValue("totalAmountOthersOrder",todaysTotalAmountOthersOrders);
-      setValue("totalorderupi",todaysTotalOrderdsInUPI);
-
-
+      setValue("Totalorder", todaysTotalOrders);
+      setValue("totalAmount", todaysTotalAmount);
+      setValue("totalAmountSwiggyOrder", todaysTotalAmountSwiggyOrders);
+      setValue("totalAmountZomatoOrder", todaysTotalAmountZomatoOrders);
+      setValue("totalAmountBromagOrders", todaysTotalAmountBromagOrders);
+      setValue("totalamounttakeaway", todaysTotalAmountTakeAway);
+      setValue("totalAmountOthersOrder", todaysTotalAmountOthersOrders);
+      setValue("totalorderupi", todaysTotalOrderdsInUPI);
 
       // setValue(
       //   "totalamountdinein",
@@ -167,8 +167,6 @@ const PosAddTodaysClosing = () => {
       //     ? data.todaysTotalAmountDineIn[0].totalAmountDineIn
       //     : 0
       // );
-
-    
     }
 
     getFieldData();
@@ -210,6 +208,7 @@ const PosAddTodaysClosing = () => {
                     type="date"
                     id="date"
                     defaultValue={currentDate}
+                    readOnly
                   />
 
                   {errors.date && errors.date.type === "required" && (
@@ -273,13 +272,13 @@ const PosAddTodaysClosing = () => {
                     type="number"
                     placeholder="Enter Total Amount In Online Orders"
                   />
-                  
                 </div>
               </div>
               <div className="form-input-row">
                 <div className="form-input">
                   <label>
-                  Total Amount - Bromag Orders<span className="text-danger">*</span>
+                    Total Amount - Bromag Orders
+                    <span className="text-danger">*</span>
                   </label>
                   <br />
                   <input
@@ -309,13 +308,11 @@ const PosAddTodaysClosing = () => {
                     type="number"
                     placeholder="Enter Total Amount In Online Orders"
                   />
-                  
                 </div>
               </div>
 
               <div className="form-input-row">
-               
-              <div className="form-input">
+                <div className="form-input">
                   <label>
                     Total Amount - Others Orders
                     <span className="text-danger">*</span>
@@ -328,12 +325,7 @@ const PosAddTodaysClosing = () => {
                     type="number"
                     placeholder="Enter Total Amount In Online Orders"
                   />
-                  
                 </div>
-
-
-
-
               </div>
               <div className="form-input-row">
                 <div className="form-input">
@@ -349,10 +341,7 @@ const PosAddTodaysClosing = () => {
                     type="number"
                     placeholder="Enter Total Amount In Take Away"
                   />
-                
                 </div>
-
-               
               </div>
 
               <div className="form-input-row">
@@ -480,13 +469,11 @@ const PosAddTodaysClosing = () => {
               </div>
 
               <div className="col-md-5 mt-3 d-flex flex-wrap gap-3">
-              
-            {aadhaarImagePreview && aadhaarImagePreview.map((image, index) => (
-                <Image key={index} width={200} src={image} />
-
-              
-              ))}
-</div>
+                {aadhaarImagePreview &&
+                  aadhaarImagePreview.map((image, index) => (
+                    <Image key={index} width={200} src={image} />
+                  ))}
+              </div>
 
               <div className="buttons">
                 <Button className="submit-btn" type="submit">

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 //icon imports
-import { Image } from 'antd';
+import { Image } from "antd";
 import { FaUpload } from "react-icons/fa6";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
@@ -43,14 +43,10 @@ const AddCustomer = () => {
       } = data;
       const formData = new FormData();
 
-
       for (let i = 0; i < imageAadhar.length; i++) {
-      
         formData.append("aadharImage", imageAadhar[i]);
       }
 
-
-  
       formData.append("aadharNumber", aadharNumber);
       formData.append("address", address);
       formData.append("city", city);
@@ -95,39 +91,36 @@ const AddCustomer = () => {
   };
 
   const handleAdharImage = (e) => {
-
     const files = e.target.files;
     console.log(files, " i am filesss");
-    
+
     if (files.length !== 2) {
-      
-      toastError("Please select Aadhaar front and back image")
+      toastError("Please select Aadhaar front and back image");
 
       e.target.value = null;
 
       return;
-
     }
 
     if (files) {
       const previews = [];
-  
+
       Array.from(files).forEach((image) => {
         const reader = new FileReader();
-  
+
         reader.onload = function (e) {
           previews.push(e.target.result);
-  
+
           // Check if all images have been processed
           if (previews.length === files.length) {
             setAadharImagePreview(previews);
           }
         };
-  
+
         reader.readAsDataURL(image);
       });
-}
- 
+    }
+
     setImageAdhar(files);
   };
 
@@ -267,7 +260,7 @@ const AddCustomer = () => {
                   <input
                     {...register("address", {
                       required: true,
-                      pattern: /^[a-zA-Z-', ]+$/,
+                      pattern: /^^[a-zA-Z0-9\s,.-]+$/,
                     })}
                     type="text"
                     id="address"
@@ -329,12 +322,10 @@ const AddCustomer = () => {
               <div className="form-input-row">
                 <div className="form-input-full">
                   <input
-                   {
-                    ...register("zipcode", {
+                    {...register("zipcode", {
                       required: true,
                       pattern: /^\d{6}$/,
-                    })
-                  } 
+                    })}
                     type="text"
                     placeholder="Enter zip code"
                   />
@@ -380,13 +371,15 @@ const AddCustomer = () => {
                       Browse File
                     </label>
                   </label>
-                  {!aadhaarImagePreview && errors.aadharImage &&
+                  {!aadhaarImagePreview &&
+                    errors.aadharImage &&
                     errors.aadharImage.type === "required" && (
                       <label className="error-msg">
                         ( Here please upload Aadhaar image )
                       </label>
                     )}
-                  {!aadhaarImagePreview && errors.aadharImage &&
+                  {!aadhaarImagePreview &&
+                    errors.aadharImage &&
                     errors.aadharImage.type === "validFileType" && (
                       <label className="error-msg">
                         ( Here please upload a valid Aadhaar image (jpeg, jpg,
@@ -396,13 +389,11 @@ const AddCustomer = () => {
                 </div>
 
                 <div className="col-md-5 mt-3 d-flex flex-wrap gap-3">
-              
-              {aadhaarImagePreview && aadhaarImagePreview.map((image, index) => (
-                  <Image key={index} width={200} src={image} />
-  
-                
-                ))}
-  </div>
+                  {aadhaarImagePreview &&
+                    aadhaarImagePreview.map((image, index) => (
+                      <Image key={index} width={200} src={image} />
+                    ))}
+                </div>
               </div>
 
               <div className="form-input-row">

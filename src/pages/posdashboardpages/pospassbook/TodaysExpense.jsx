@@ -6,10 +6,15 @@ import { FaPlus } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { expenseDateFilter, fetchExpenseData, searchTodaysExpense } from "../../../config/routeApi/pos";
+import {
+  expenseDateFilter,
+  fetchExpenseData,
+  searchTodaysExpense,
+} from "../../../config/routeApi/pos";
 import ViewModal from "../../../components/poscomponents/ViewModal";
 import { useForm } from "react-hook-form";
 import { toastError } from "../../../helpers/helpers";
+import { restaurantPosAxiosInstance } from "../../../config/apiInterceptor";
 
 const TodaysExpense = () => {
   const {
@@ -21,25 +26,22 @@ const TodaysExpense = () => {
   const [expenseData, setexpenseData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [viewdata, setSeletedviewdata] = useState();
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
   const [showFilteredData, setShowFilteredData] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [isExpenseAdded, setIsExpenseAdded] = useState(false);
 
   async function search(query) {
     try {
-
       setSearchQuery(query);
 
       if (searchQuery) {
-
         const response = await searchTodaysExpense(searchQuery); // Use correct variable name here
         if (response.data.success) {
-
-          setShowFilteredData(true)
-          setFilteredData(response.data.data)
+          setShowFilteredData(true);
+          setFilteredData(response.data.data);
         }
       }
-
 
       console.log(showFilteredData, "filtered");
     } catch (error) {
@@ -47,28 +49,29 @@ const TodaysExpense = () => {
     }
   }
 
-
-
-
-
-
   useEffect(() => {
-
-
     (async function fetchExpense() {
-
-      const response = await fetchExpenseData()
+      const response = await fetchExpenseData();
       if (response.data.success) {
-
-        setexpenseData(response.data.data)
-
+        setexpenseData(response.data.data);
       } else {
-        toastError(response.data.message)
-
+        toastError(response.data.message);
       }
+    })();
+    const isAdded = async () => {
+      try {
+        const { data } = await restaurantPosAxiosInstance.get(
+          "isPassBookReportsAdded"
+        );
 
-    })()
-
+        if (data.success) {
+          setIsExpenseAdded(data.isClosingExist);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    isAdded();
   }, []);
 
   async function handleView(data) {
@@ -76,61 +79,53 @@ const TodaysExpense = () => {
     setModalShow(true);
   }
 
-
   const handleDateFilter = async (data) => {
     try {
-
-
       const response = await expenseDateFilter(data);
-      console.log(response)
+      console.log(response);
 
       if (response.data.success) {
         setFilteredData(response.data.data);
         setShowFilteredData(true);
       } else {
-
-        toastError(response.data.message)
-
+        toastError(response.data.message);
       }
-
-
-
-
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-
-
     <Wrapper className="page">
       <div className="page-content">
         <div className="page-header">
-
           <h3>Expense Report</h3>
 
-          <Button className="fw-normal">
+          <Button
+            disabled={isExpenseAdded}
+            variant="dark"
+            className="fw-normal"
+          >
             <Link
               className="page-header-btn"
               to="/pos-dashboard/pos-passbook/add-todays-expense"
             >
-              <FaPlus className="plus-icon" />Add Expense Report
+              <FaPlus className="plus-icon" />
+              Add Expense Report
             </Link>
           </Button>
-
-
         </div>
-
 
         <div className="search-and-btn">
           <div className="search-div">
             <div className="search-input-group">
               <IoSearchSharp className="search-icon" />
-              <input type="text" placeholder="Search"
+              <input
+                type="text"
+                placeholder="Search"
                 onInput={(e) => search(e.target.value)}
-
-                className="search-bar" />
+                className="search-bar"
+              />
             </div>
             {/* <button className="search-btn">Search</button> */}
           </div>
@@ -177,9 +172,6 @@ const TodaysExpense = () => {
           </div>
         </div>
 
-
-
-
         <div className="table-div">
           <Table striped bordered hover className="table">
             <thead>
@@ -192,101 +184,83 @@ const TodaysExpense = () => {
               </tr>
             </thead>
 
+            {!showFilteredData && (
+              <tbody>
+                {expenseData.map((item, i) => {
+                  const dateObject = new Date(item.date);
+                  const formattedDate = dateObject.toLocaleDateString();
 
+                  return (
+                    <tr key={item._id}>
+                      <td>{i + 1}</td>
+                      <td>{formattedDate}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.description}</td>
+                      <td>
+                        {
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() => handleView(item.billURL)}
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
+                          </div>
+                        }
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
 
-            {!showFilteredData && (<tbody>
+            {showFilteredData && filteredData && (
+              <tbody>
+                {filteredData.map((item, i) => {
+                  const dateObject = new Date(item.date);
+                  const formattedDate = dateObject.toLocaleDateString();
 
-              {expenseData.map((item, i) => {
-                const dateObject = new Date(item.date);
-                const formattedDate = dateObject.toLocaleDateString();
-
-                return (
-                  <tr key={item._id}>
-                    <td>{i + 1}</td>
-                    <td>{formattedDate}</td>
-                    <td>{item.amount}</td>
-                    <td>{item.description}</td>
-                    <td>{
-                      <div className="actions">
-
-                        <div className="link-wrapper">
-                          <Link
-                            className="action-list"
-                            onClick={() => handleView(item.billURL)}>
-                            <a className="view">
-                              View
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
-
-                    }</td>
-
-                  </tr>
-                );
-              })}
-
-
-            </tbody>)}
-
-            {showFilteredData && filteredData && (<tbody>
-
-              {filteredData.map((item, i) => {
-                const dateObject = new Date(item.date);
-                const formattedDate = dateObject.toLocaleDateString();
-
-                return (
-                  <tr key={item._id}>
-                    <td>{i + 1}</td>
-                    <td>{formattedDate}</td>
-                    <td>{item.amount}</td>
-                    <td>{item.description}</td>
-                    <td>{
-                      <div className="actions">
-
-                        <div className="link-wrapper">
-                          <Link
-                            className="action-list"
-                            onClick={() => handleView(item.billURL)}>
-                            <a className="view">
-                              View
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
-
-                    }</td>
-
-                  </tr>
-                );
-              })}
-
-              
-            </tbody>)}
-
-
-
+                  return (
+                    <tr key={item._id}>
+                      <td>{i + 1}</td>
+                      <td>{formattedDate}</td>
+                      <td>{item.amount}</td>
+                      <td>{item.description}</td>
+                      <td>
+                        {
+                          <div className="actions">
+                            <div className="link-wrapper">
+                              <Link
+                                className="action-list"
+                                onClick={() => handleView(item.billURL)}
+                              >
+                                <a className="view">View</a>
+                              </Link>
+                            </div>
+                          </div>
+                        }
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
           </Table>
         </div>
       </div>
 
-      {
-
-viewdata ? (
-  <ViewModal
-  viewData={viewdata}
-  open={modalShow}
-  onCancel={() => setModalShow(false)}
-  cancelButtonProps={{ style: { display: "none" } }}
-  okButtonProps={{ style: { display: "none" } }}
-  />) : null
-}
-
+      {viewdata ? (
+        <ViewModal
+          viewData={viewdata}
+          open={modalShow}
+          onCancel={() => setModalShow(false)}
+          cancelButtonProps={{ style: { display: "none" } }}
+          okButtonProps={{ style: { display: "none" } }}
+        />
+      ) : null}
     </Wrapper>
   );
 };
 export default TodaysExpense;
-
-
-
-

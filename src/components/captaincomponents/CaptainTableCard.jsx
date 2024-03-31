@@ -212,8 +212,8 @@ setCustomerName(data.customerName)
                       <img src={img} alt="" />
                     </div>
                     <div>
-                      <h4>Table 0{tableno}</h4>
-                      <p style={{ margin: "0px" }}>2 seaters</p>
+                      <h4>Table {tableno}</h4>
+                      <p style={{ margin: "0px" }}>{noofseats} seaters</p>
                     </div>
                   </div>
                 </div>

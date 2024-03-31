@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { restaurantPosAxiosInstance } from "../../../config/apiInterceptor";
 import ViewModal from "../../../components/poscomponents/ViewModal";
 // import '../../../assets/css/PosPassbook.css'
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 import { toastError } from "../../../helpers/helpers";
 
 const CardDeck = Styled.section`
@@ -69,7 +69,6 @@ h1{
 }
 `;
 
-
 const PosPassbook = () => {
   const [passbookData, setPassbookData] = useState([]);
   const [openingBalance, setOpeningBalance] = useState(0);
@@ -84,7 +83,6 @@ const PosPassbook = () => {
   const [isOpeningAdded, setIsOpeningAdded] = useState(false);
   const [viewdata, setSeletedviewdata] = useState();
   const [searchTerm, setSearchTerm] = useState("");
-
 
   // const totalSales = useMemo(() => {
   //   if (floatingCash && openingBalance && expenseCash) {
@@ -109,7 +107,7 @@ const PosPassbook = () => {
   // }, [floatingCash, openingBalance]);
 
   async function handleView(data) {
-    console.log(data,"data");
+    console.log(data, "data");
     setSeletedviewdata(data);
     setModalShow(true);
   }
@@ -120,7 +118,6 @@ const PosPassbook = () => {
     formState: { errors },
   } = useForm();
 
-
   const filteredPassbookData = passbookData.filter((item) => {
     // Modify this condition based on your search criteria
     return (
@@ -130,25 +127,23 @@ const PosPassbook = () => {
       item.totalAmountTakeaway.toString().includes(searchTerm)
     );
   });
-  
 
   useEffect(() => {
-
-
     const isAdded = async () => {
       try {
-        const {data} = await restaurantPosAxiosInstance.get('isPassBookReportsAdded')
+        const { data } = await restaurantPosAxiosInstance.get(
+          "isPassBookReportsAdded"
+        );
 
         if (data.success) {
-         setIsClosingAdded(data.isClosingExist) 
-         setIsOpeningAdded(data.isOpeningExist) 
-        }  
-
+          setIsClosingAdded(data.isClosingExist);
+          setIsOpeningAdded(data.isOpeningExist);
+        }
       } catch (err) {
         console.log(err);
       }
-    }
-    isAdded()
+    };
+    isAdded();
 
     const handlefetchPassbookData = async () => {
       try {
@@ -157,42 +152,34 @@ const PosPassbook = () => {
         );
 
         if (response.data.success) {
-
           setPassbookData(response.data.data);
-
         }
       } catch (error) {
         console.log(error);
       }
     };
 
-    handlefetchPassbookData()
+    handlefetchPassbookData();
 
     const getOpeningBalance = async () => {
-      const {data} = await fetchTodaysOpeningData();
+      const { data } = await fetchTodaysOpeningData();
+      console.log(data, "datas");
       if (data.success) {
-
         console.log(data);
 
-        setOpeningBalance(data.OpeningAmount)
-        setExpenseCash(data.ExpenseAmount)
-        setClosingBalance(data.ClosingAmount)
-        setTotalSales(data.TotalSales)
-        setfloatingCash(data.FloatingAmount)
-     
-
-
+        setOpeningBalance(data.OpeningAmount);
+        setExpenseCash(data.ExpenseAmount);
+        setClosingBalance(data.ClosingAmount);
+        setTotalSales(data.TotalSales);
+        setfloatingCash(data.FloatingAmount);
       }
     };
 
-    getOpeningBalance()
+    getOpeningBalance();
 
     // const getfloatingCash = async () => {
 
-
     //   const response = await fetchTodaysfloatingCash();
-
-    
 
     //   if (response.data.success) {
 
@@ -201,21 +188,16 @@ const PosPassbook = () => {
     //     const expenseData = response.data.Expensedata
 
     //     setExpenseCash(expenseData[0].totalExpense)
-       
 
     //     setfloatingCash(floatingData[0].totalAmount);
     //   }
     // };
 
     // // getfloatingCash()
-
-
-
   }, []);
 
   const handleDateFilter = async (data) => {
     try {
-      
       const response = await PassbookDateFilter(data);
       console.log(response);
 
@@ -223,8 +205,7 @@ const PosPassbook = () => {
         setFilteredData(response.data.data);
         setShowFilteredData(true);
       } else {
-
-        toastError(response.data.message)
+        toastError(response.data.message);
       }
     } catch (error) {
       console.error(error);
@@ -239,13 +220,13 @@ const PosPassbook = () => {
         </div>
 
         <div className="button-deck">
-          <Button disabled={isOpeningAdded} >
+          <Button disabled={isOpeningAdded}>
             <FaPlus className="plus-icon" />
             <Link
               className="page-header-btn"
               to="/pos-dashboard/pos-passbook/add-todays-opening-balance"
             >
-              Add Today&apos;s  Opening Report
+              Add Today&apos;s Opening Report
             </Link>
           </Button>
 
@@ -258,8 +239,8 @@ const PosPassbook = () => {
               Add Today&apos;s Closing Report
             </Link>
           </Button>
-          
-          <Button >
+
+          <Button>
             <FaPlus className="plus-icon" />
             <Link
               className="page-header-btn"
@@ -268,50 +249,54 @@ const PosPassbook = () => {
               Add Today&apos;s Expense Report
             </Link>
           </Button>
-
         </div>
 
         <CardDeck className="card-deck">
           <Card className="sales-card">
             <div className="card-bg"></div>
-            <Card.Body >
+            <Card.Body>
               <Card.Title>Opening Amount</Card.Title>
-              <h1><CountUp duration={0.6} prefix="₹ " end={openingBalance} /></h1>
-
+              <h1>
+                <CountUp duration={0.6} prefix="₹ " end={openingBalance} />
+              </h1>
             </Card.Body>
           </Card>
           <Card className="sales-card">
             <div className="card-bg"></div>
-            <Card.Body >
+            <Card.Body>
               <Card.Title>Floating Amount</Card.Title>
-              <h1><CountUp duration={0.6} prefix="₹ " end={floatingCash} /></h1>
-
+              <h1>
+                <CountUp duration={0.6} prefix="₹ " end={floatingCash} />
+              </h1>
             </Card.Body>
           </Card>
           <Card className="sales-card">
             <div className="card-bg"></div>
-            <Card.Body >
+            <Card.Body>
               <Card.Title>Expense Amount</Card.Title>
 
-              <h1><CountUp duration={0.6} prefix="₹ " end={expenseCash} /></h1>
-
+              <h1>
+                <CountUp duration={0.6} prefix="₹ " end={expenseCash} />
+              </h1>
             </Card.Body>
           </Card>
           <Card className="sales-card">
             <div className="card-bg"></div>
-            <Card.Body >
+            <Card.Body>
               <Card.Title>Closing Amount</Card.Title>
 
-              <h1><CountUp duration={0.6} prefix="₹ " end={closingCash} /></h1>
-
+              <h1>
+                <CountUp duration={0.6} prefix="₹ " end={closingCash} />
+              </h1>
             </Card.Body>
           </Card>
           <Card className="sales-card">
             <div className="card-bg"></div>
             <Card.Body>
               <Card.Title>Total Sales Amount</Card.Title>
-              <h1><CountUp duration={0.6} prefix="₹ " end={totalSales} /></h1>
-
+              <h1>
+                <CountUp duration={0.6} prefix="₹ " end={totalSales} />
+              </h1>
             </Card.Body>
           </Card>
         </CardDeck>
@@ -326,13 +311,12 @@ const PosPassbook = () => {
               <div className="search-input-group">
                 <IoSearchSharp className="search-icon" />
                 <input
-  type="text"
-  placeholder="Search"
-  className="search-bar"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-/>
-
+                  type="text"
+                  placeholder="Search"
+                  className="search-bar"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
             </div>
 
@@ -388,10 +372,9 @@ const PosPassbook = () => {
                 <th>Total Orders</th>
                 <th>Total Amount</th>
                 <th>Total Amount - Take Away</th>
-         
               </tr>
             </thead>
-            {!showFilteredData &&!filteredPassbookData&& (
+            {!showFilteredData && !filteredPassbookData && (
               <tbody>
                 {passbookData &&
                   passbookData.map((item, i) => {
@@ -407,8 +390,6 @@ const PosPassbook = () => {
                         <td>{item.totalOrder}</td>
                         <td>{item.totalAmount}</td>
                         <td>{item.totalAmountTakeaway}</td>
-                      
-                     
                       </tr>
                     );
                   })}
@@ -426,52 +407,46 @@ const PosPassbook = () => {
                     return (
                       <tr key={item._id}>
                         <td>{i + 1}</td>
-                        <td>
-                          {formattedDate} 
-                        </td>
+                        <td>{formattedDate}</td>
                         <td>{item.totalOrder}</td>
                         <td>{item.totalAmount}</td>
-               
+
                         <td>{item.totalAmountTakeaway}</td>
-                       
-                      
                       </tr>
                     );
                   })}
               </tbody>
             )}
 
+            {filteredPassbookData && !showFilteredData && (
+              <tbody>
+                {filteredPassbookData.map((item, i) => {
+                  const dateObject = new Date(item.date);
+                  const formattedDate = dateObject.toLocaleDateString();
 
-{filteredPassbookData && !showFilteredData &&(<tbody>
-  {filteredPassbookData.map((item, i) => {
-    const dateObject = new Date(item.date);
-    const formattedDate = dateObject.toLocaleDateString();
-
-    return (
-      <tr key={item._id}>
-        <td>{i + 1}</td>
-        <td>{formattedDate}</td>
-        <td>{item.totalOrder}</td>
-        <td>{item.totalAmount}</td>
-        <td>{item.totalAmountTakeaway}</td>
-      </tr>
-    );
-  })}
-</tbody>)}
-
+                  return (
+                    <tr key={item._id}>
+                      <td>{i + 1}</td>
+                      <td>{formattedDate}</td>
+                      <td>{item.totalOrder}</td>
+                      <td>{item.totalAmount}</td>
+                      <td>{item.totalAmountTakeaway}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
           </Table>
         </div>
       </div>
 
-      {
-        viewdata ? (
-          <ViewModal
-            viewData={viewdata}
-            show={modalShow}
-            onHide={() => setModalShow(false)}
-          />
-        ) : null
-      }
+      {viewdata ? (
+        <ViewModal
+          viewData={viewdata}
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+      ) : null}
     </Wrapper>
   );
 };

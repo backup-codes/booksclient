@@ -33,31 +33,30 @@ const TableKotSummaryModal = (props) => {
   }, []);
 
   const handleOrderSubmit = async () => {
-    setUploading(true);
+  setUploading(true);
 
-    try {
-      const data = {
-        ///orderData is TableData
-        orderData: orderData,
-        TotalPrice: TotalPrice,
-        kotData: kotData,
-      };
+  try {
+    const data = {
+      orderData: orderData,
+      TotalPrice: TotalPrice,
+      kotData: kotData,
+    };
 
-      const response = await KotOrder(data);
-      setUploading(false);
+    const response = await KotOrder(data);
+    setUploading(false);
 
-      if (response.data.success) {
-
-        props.onCancel();
-        toastSuccess(response.data.message);
-        setSelectedItems([])
-      } else {
-        toastError(response.data.message);
-      }
-    } catch (error) {
-      console.log(error);
+    if (response.data.success) {
+      props.onCancel();
+      toastSuccess(response.data.message);
+      setSelectedItems([])
+      window.print();
+    } else {
+      toastError(response.data.message);
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
   const { gstAmount, grandTotal } = calculateGST(TotalPrice);
 
   return (
@@ -157,7 +156,7 @@ const TableKotSummaryModal = (props) => {
               className="modal-btn"
             >
               <IoMdPrint style={{ marginRight: "10px", fontSize: "20px" }} />
-              Send to POS
+              Send to KOT
             </button>
           </div>
           {/* <div className="form-btn">

@@ -91,7 +91,7 @@ const TableBookingFormModal = (props) => {
                 )}
                 {errors.phone && errors.phone.type === "pattern" && (
                   <label className="error-msg text-danger">
-                    please enter a valid phone
+                    {/* please enter a valid phone */}
                   </label>
                 )}
               </div>
