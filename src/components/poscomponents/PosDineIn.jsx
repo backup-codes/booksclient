@@ -7,7 +7,7 @@ import DineInOrderSummaryModal from "./DineInOrderSummaryModal";
 
 //image imports
 import { Table } from "../../assets/images";
-
+// backend imports to list the datas
 import { GetDineInData } from "../../config/routeApi/pos";
 import { toastError } from "../../helpers/helpers";
 

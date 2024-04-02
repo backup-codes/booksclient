@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 //component imports
 import TableOrderSummeryModal from "../../components/captaincomponents/TableOrderSummeryModal";
 import TableKotSummaryModal from "../../components/captaincomponents/TableKotSummaryModal";
+//backend imports 
 
 //icon imports
 import { FaPrint } from "react-icons/fa6";
@@ -17,8 +18,13 @@ import AddToCartCapMenu from "../../components/Menu/AddToCartCapMenu";
 import { IoMdPrint } from "react-icons/io";
 import Uploading from "../../components/loaders/Uploading";
 import { toastError, toastSuccess } from "../../helpers/helpers";
+// import {  getAllRegisteredPos, getAllSalesReport,TodaysPassbookData,
+//    } from "../../config/routeApi/owner";
 
 const CaptainMenu = () => {
+  const [registeredPosManager, setRegisteredPosManagers] = useState([]);
+  const [selectedPOSManager, setSelectedPosManager] = useState('All');
+  const [todaysData, setTodaysData] = useState([]);
   const [modalKot, setModalKot] = useState(false);
   const [modalHold, setModalHold] = useState(false);
   const [modalPrintBill, setModalPrintBill] = useState(false);
@@ -54,6 +60,10 @@ const CaptainMenu = () => {
   const handleKotIdChange = (newKotId) => {
     setKotId(newKotId);
   };
+
+
+ 
+
 
 
   const handleModalKotOpen = () => {
@@ -161,6 +171,73 @@ const CaptainMenu = () => {
     handleMenuData();
     handleCategoryChange({ target: { value: "all" } });
   }, [searchTerm]);
+
+
+  // Display the employee
+
+  // useEffect(() => {
+  //   const handlePassbookData = async () => {
+  //     try {
+  //       // const { data } = await PassBookData();
+
+  //       const {data} = await TodaysPassbookData(selectedPOSManager)
+  //       if (data.success) {
+  //         setTodaysData(data.TodaysData);
+  //       } else {
+  //         toastError(data.message);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   handlePassbookData();
+
+  //   const GetAllSalesReport = async () => {
+  //     const response = await getAllSalesReport(selectedPOSManager,null);
+
+  //     if (response.data.success) {
+  //       console.log(response.data," heeey dataata");
+  //       setPassBookData(response.data.data);
+  //     } else {
+  //       toastError(response.data.message);
+  //     }
+  //   };
+  //   GetAllSalesReport();
+
+  
+
+  // }, [selectedPOSManager]);
+
+  // useEffect(() => {
+  //   const GetAllRegisteredPos = async () => {
+  //     try {
+  //       const { data } = await getAllRegisteredPos();
+      
+
+  //       if (data.success) {
+  //         setRegisteredPosManagers(data.RegisteredPosManagers);
+  //       } else {
+  //         toastError(data.message);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+
+  //   GetAllRegisteredPos();
+  // },[])
+
+  // async function handleView(data) {
+  //   console.log(data);
+  //       setSeletedviewdata(data);
+  //       setModalShow(true);
+  //     }
+    
+ 
+  
+
+ 
 
   return (
     <>
@@ -270,17 +347,34 @@ const CaptainMenu = () => {
               orderData={data}
               // onKotIdChange={handleKotIdChange}
             />
-
-            
+           
+           {/* <div>
+          <select
+      className="form-select"
+      value={selectedPOSManager}
+      onChange={(e) => setSelectedPosManager(e.target.value)}
+    >
+      <option value="All">All</option>
+      {registeredPosManager.map((posManager) => (
+        <option key={posManager._id} value={posManager._id}>
+          {posManager.username}
+        </option>
+      ))}
+    </select>
+          </div> */}
             {ordered.length > 0 && ordered[0].kotStatus ? (
+              
               <button
                 onClick={handleSendToPos}
                 type="button"
                 className="modal-btn"
                 // hidden={data && data.orderMode === "Swiggy"||"Zomato"||"Bromag"||"Others"}
               >
-                <FaPrint className="btn-icon" /> Send to POS
+                
+                <FaPrint className="btn-icon" /> Send to
+               
               </button>
+              
             ) : (
               <button
                 onClick={handleSendToPos}
@@ -289,8 +383,11 @@ const CaptainMenu = () => {
                 disabled={true}
               >
                 <IoMdPrint className="btn-icon" /> Send to POS
+               
               </button>
             )}
+            {/* dropdown to select the employee */}
+             
 
             <TableOrderSummeryModal
               open={modalPrintBill}

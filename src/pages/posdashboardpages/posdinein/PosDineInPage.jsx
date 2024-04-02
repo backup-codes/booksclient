@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 //component imports
 import DineInSummeryModal from "../../../components/poscomponents/DineInSummeryModal.jsx";
-//backend imports
+//backend imports to list the dine data
 import { GetDineInData } from "../../../config/routeApi/pos.js";
 
 const PosDineInPage = () => {
@@ -18,6 +18,7 @@ const PosDineInPage = () => {
   const [showSelectedItemId, setShowSelectedItemId] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // getting dine orders
   useEffect(() => {
     const handleDineIn = async () => {
       try {

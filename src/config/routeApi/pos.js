@@ -287,7 +287,7 @@ console.log(response,"happy respons");
     console.log(error);
   }
 };
-
+// To list the dine data
 const GetDineInData = async () => {
   try {
     const response = await restaurantPosAxiosInstance.get("getDineIn");
