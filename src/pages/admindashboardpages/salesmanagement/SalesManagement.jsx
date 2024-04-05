@@ -12,6 +12,7 @@ import { toastError } from "../../../helpers/helpers";
 
 const SalesManagement = () => {
   const [totalSalesPerDay, setTotalSalesPerDay] = useState({});
+  const [hourlySalesPerDay, setHourlySalesPerDay] = useState({});
   const [highestBillingAmountPerHr, setHighestBillingAmountPerHr] =
     useState("");
   const [averageBillingAmountPerDay, setAverageBillingAmountPerDay] = useState(
@@ -47,6 +48,9 @@ const SalesManagement = () => {
 
         console.log(response)
         setTotalSalesPerDay(response.data.TotalSalesPerDay);
+        setHourlySalesPerDay(response.data.hourlySalesAmount);
+        // console.log("hourlysalesamount",hourlySalesAmount)
+
         setHighestBillingAmountPerHr(response.data.HighestBillingAmountPerHr);
         setAverageBillingAmountPerDay(response.data.averageBillingAmountPerDay);
         if (response.data.TotalOnlineSales) {
@@ -137,9 +141,7 @@ const SalesManagement = () => {
     {
       title: "Hourly Sales Amount",
       quantity:
-        totalSalesPerDay && totalSalesPerDay.totalAmount
-          ? totalSalesPerDay.totalAmount
-          : 0,
+      hourlySalesPerDay
     },
     {
       title: "Highest Billing Amount/hr",
@@ -147,6 +149,7 @@ const SalesManagement = () => {
         highestBillingAmountPerHr && highestBillingAmountPerHr
           ? highestBillingAmountPerHr
           : 0,
+         
     },
     // {
     //   title: "Average Billing Amount per Day",
@@ -173,7 +176,7 @@ const SalesManagement = () => {
     },
   ];
 
-
+console.log("hourlySalesPerDay",highestBillingAmountPerHr)
 
 
 

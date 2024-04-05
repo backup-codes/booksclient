@@ -371,7 +371,7 @@ const CaptainMenu = () => {
                 // hidden={data && data.orderMode === "Swiggy"||"Zomato"||"Bromag"||"Others"}
               >
                 
-                <FaPrint className="btn-icon" /> Send to
+                <FaPrint className="btn-icon" /> Send to 
                
               </button>
               
