@@ -245,7 +245,7 @@ const AddInvoice = () => {
 
                               {...restField}
                               name={[name, 'commodity']}
-                              rules={[{ required: true, message: 'Enter Valid Commodity Name' ,   pattern: /^[A-Za-z]+$/,}]}
+                              rules={[{ required: true, message: 'Enter Valid Commodity Name' ,   pattern: /^[A-Z][a-zA-Z]*$/,}]}
                             >
                               <AutoComplete
                                 dataSource={commodities}

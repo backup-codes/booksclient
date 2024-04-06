@@ -41,31 +41,15 @@ const StockManagemnet = () => {
 
   const handleStockDashboard = async () => {
     try {
-      console.log("i have been called by her");
       const response = await StockDashboard();
-
       if (response.data.success) {
-        setToday(response.data.stocks)
+        setToday(response.data.stocks.filter(item => item.quantity > 0));
+        // Filter out items with quantity zero
       } else {
-
+        // Handle error
       }
-
-      console.log(response, "response from the stockmanger")
-
-      // if (response.data.success) {
-      //   //   setTotal(response.data.Total);
-      //   setYesterday(yesterdayArray)
-      //   // setToday(todaysArray);  
-      //   setLastWeek(lastweekArray);
-      //   setLastMonth(lastmontharray);
-      //   setLastYear(lastYeararray);
-      // // } else {
-      //   // toast(response.data.message);
-      // } else {
-      //   toastError(response.data.message)
-      // }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -74,7 +58,7 @@ const StockManagemnet = () => {
   useEffect(() => {
     handleStockDashboard();
   }, []);
-
+ 
   const handleDateFilter = async (data) => {
     try {
       const response = await VendorDateFilter(data);
@@ -173,129 +157,23 @@ const StockManagemnet = () => {
             <h3>Stock Management</h3>
           </div>
 
-          {/* <div className="dates">
-            <form onSubmit={handleSubmit(handleDateFilter)}>
-              <div className="dates">
-                <div className="date left">
-                  <Form.Label>From</Form.Label>
-                  <div>
-                    <Form.Control
-                      className="date-input"
-                      type="date"
-                      {...register("start", { required: true })}
-                    />
-                    {errors.start && (
-                      <Form.Control.Feedback type="invalid">
-                        Please enter a valid date
-                      </Form.Control.Feedback>
-                    )}
-                  </div>
-                </div>
-
-                <div className="date right">
-                  <Form.Label>To</Form.Label>
-                  <div>
-                    <Form.Control
-                      className="date-input"
-                      type="date"
-                      {...register("end", { required: true })}
-                    />
-                    {errors.end && (
-                      <Form.Control.Feedback type="invalid">
-                        Please enter a valid date
-                      </Form.Control.Feedback>
-                    )}
-                  </div>
-                </div>
-                <Button className="search-btn" type="submit">
-                  Submit
-                </Button>
-              </div>
-            </form>
-          </div> */}
+       
         </div>
 
-        {/* <section>
-          <div className="card-deck" style={{justifyContent:"space-between"}}>
-            <Button
-              onClick={() => handleButtonClick("today")}
-              className={
-                showToday
-                  ? "quicklink-btn quicklink-btn-active"
-                  : "quicklink-btn"
-              }
-            >
-              Today
-            </Button>
-
-            <Button
-              onClick={() => handleButtonClick("yesterday")}
-              className={
-                showYesterday
-                  ? "quicklink-btn quicklink-btn-active"
-                  : "quicklink-btn"
-              }
-            >
-              Yesterday
-            </Button>
-
-            <Button
-              onClick={() => handleButtonClick("lastWeek")}
-              className={
-                showLastWeek
-                  ? "quicklink-btn quicklink-btn-active"
-                  : "quicklink-btn"
-              }
-            >
-              Last Week
-            </Button>
-
-            <Button
-              onClick={() => handleButtonClick("lastMonth")}
-              className={
-                showLastMonth
-                  ? "quicklink-btn quicklink-btn-active"
-                  : "quicklink-btn"
-              }
-            >
-              Last Month
-            </Button>
-
-            <Button
-              onClick={() => handleButtonClick("lastYear")}
-              className={
-                showLastYear
-                  ? "quicklink-btn quicklink-btn-active"
-                  : "quicklink-btn"
-              }
-            >
-              Last Year
-            </Button> */}
-
-        {/* <Button
-              onClick={() => handleButtonClick("total")}
-              className={showTotal ? "quicklink-btn" : "quicklink-btn"}
-            >
-              Reset
-            </Button> */}
-        {/* </div>
-        </section> */}
+      
 
         <section className="sales-card-deck">
           <Container>
             <Row>
-              {showToday &&
+            {showToday &&
                 today.map((item, index) => (
                   <Card as={Col} md={"4"} key={index} className="sales-card">
-
                     <Card.Body>
                       <Card.Title className="sales-card-title ">
-                        <h3> {item.commodityName}</h3>
+                        <h3>{item.commodityName}</h3>
                       </Card.Title>
                       <h2>{item.quantity + " " + item.unit}</h2>
-
                     </Card.Body>
-
                     <div className="card-bg"></div>
                   </Card>
                 ))}

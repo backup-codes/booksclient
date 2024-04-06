@@ -1,8 +1,6 @@
 //styled-component import
 import Wrapper from "../../../assets/wrappers/adminwrappers/SalesManagement";
-//bootstrap imports
-// import Form from "react-bootstrap/Form";
-// import { Button } from "react-bootstrap";
+
 import { CaptainList, OrderDataOfCap } from "../../../config/routeApi/owner";
 import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
@@ -41,38 +39,6 @@ const CaptainManagement = () => {
 
         }
 
-        // if (selectedCaptainId === "all") {
-
-
-        //   console.log("selected all");
-        //   // If "all" is selected, fetch data for all captains
-        //   if (response.data.success) {
-        //     setTodayDineInOrdersPerDay(response.data.TodayDineInOrdersPerDay);
-        //     setClosingBalancePerDay(response.data.ClosingBalancePerDay);
-        //     setTotalDineInOrders(response.data.TotalDineInOrders);
-
-        //     // setSelectedCaptainData(response.data.TotalDineInOrders);
-        //   } else {
-        //     toastError(response.data.message);
-        //   }
-
-
-        // } else {
-
-
-        //   console.log("selceted capatain");
-
-        //   // If a specific captain is selected, fetch data for that captain
-        //   const response = await OrderDataOfCap(selectedCaptainId);
-        //   if (response.data.success) {
-        //     setTodayDineInOrdersPerDay(response.data.TodayDineInOrdersPerDay);
-        //     setClosingBalancePerDay(response.data.ClosingBalancePerDay);
-        //   } else {
-        //     toastError(response.data.message);
-        //   }
-
-
-        // }
 
 
 
@@ -95,46 +61,7 @@ const CaptainManagement = () => {
   }
 
 
-  // const handleCaptainChange = async (event) => {
-  //   const selectedId = event.target.value;
-
-  //   // Update the state first
-  //   setSelectedCaptainId(selectedId);
-
-  //   try {
-  //     const response = await OrderDataOfCap(selectedCaptainId);
-
-      
-      // if (selectedId === "all") {
-      //   if (response.data.success) {
-
-      //     setTodayDineInOrdersPerDay(response.data.TodayDineInOrdersPerDay);
-      //     setClosingBalancePerDay(response.data.ClosingBalancePerDay);
-      //     // setSelectedCaptainData(response.data.TotalDineInOrders);
-      //   } else {
-
-      //     toastError(response.data.message);
-
-      //   }
-      // } else {
-        
-      //   console.log(selectedId," i a am");
-      //   const response = await OrderDataOfCap(selectedId);
-      //   if (response.data.success) {
-      //     console.log(response," I am on change response");
-      //     setTodayDineInOrdersPerDay(response.data.TodayDineInOrdersPerDayByCaptain);
-      //     setClosingBalancePerDay(response.data.ClosingBalancePerDayByCaptain);
-      //     // setSelectedCaptainData(response.data.TotalDineInOrders);
-      //   } else {
-      //     toastError(response.data.message);
-      //   }
-      // }
-
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+ 
 
   useEffect(() => {
     const handleLeadsData = async () => {
@@ -198,41 +125,7 @@ const CaptainManagement = () => {
             </select>
           </div>
 
-          {/* <div className="dates">
-            <form>
-              <div className="dates">
-                <div className="date left">
-                  <Form.Label>From</Form.Label>
-                  <div>
-                    <Form.Control className="date-input" type="date" />
-                  </div>
-                </div>
-
-                <div className="date right">
-                  <Form.Label>To</Form.Label>
-                  <div>
-                    <Form.Control className="date-input" type="date" />
-                  </div>
-                </div>
-                <Button className="search-btn" type="submit">
-                  Submit
-                </Button>
-              </div>
-            </form>
-          </div> */}
         </div>
-
-        {/* <section>
-          <div className="card-deck">
-            {quickLinks.map((item) => {
-              return (
-                <Button key={item} className="quicklink-btn">
-                  {item}
-                </Button>
-              );
-            })}
-          </div>
-        </section> */}
 
         <section className="sales-card-deck">
           <Container>

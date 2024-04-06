@@ -247,7 +247,6 @@ const StockIn = () => {
     }
   }
 
-
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
@@ -275,7 +274,6 @@ const StockIn = () => {
         formattedAmount.includes(debouncedSearchQuery)
     );
   });
-
 
   // const filteredSalesData = stockrDetails.filter((item) => {
   //   const formattedAmount = String(item.amount);
@@ -332,6 +330,7 @@ const StockIn = () => {
               </thead>
               <tbody>
                 {filteredSalesData.map((item, i) => {
+                  const isStockZero = item.stockInward === 0; // Check if stock is zero
                   return (
                     <tr key={item._id}>
                       <td>{i + 1}</td>
@@ -340,16 +339,22 @@ const StockIn = () => {
                       <td>{item.stockInward + " " + item.unit}</td>
                       <td>{item.VendorId.vendorId}</td>
                       <td>{item.amount}</td>
-
                       <td>
                         <div className="actions">
                           <div className="link-wrapper">
-                            <Link
-                              className="action-list"
-                              onClick={() => handleView(item.billURL)}
+                            {/* Disable the link and change its style if stock is zero */}
+                            <a
+                              className={`action-list ${
+                                isStockZero ? "disabled" : ""
+                              }`}
+                              onClick={
+                                isStockZero
+                                  ? (e) => e.preventDefault()
+                                  : () => handleView(item.billURL)
+                              }
                             >
-                              <a className="view">View</a>
-                            </Link>
+                              View
+                            </a>
                           </div>
                           <div className="link-wrapper">
                             <Link
@@ -403,88 +408,100 @@ const StockIn = () => {
             </div>
           )}
 
-          {selectedStockIn && modalShow && (
-            <>
-              <div className="modal-header">
-                <h4 className="modal-title">Stock Out</h4>
-              </div>
+{selectedStockIn && modalShow && (
+  <>
+    <div className="modal-header">
+      <h4 className="modal-title">Stock Out</h4>
+    </div>
 
-              <div className="form-div">
-                <form noValidate onSubmit={handleSubmit(handleStockOutDetails)}>
-                  <div className="form-row">
-                    <div className="form-input">
-                      <label htmlFor="quantity">Quantity</label>
-                      <br />
-                      <input
-                        {...register("quantity", {
-                          required: true,
-                          pattern: /^[0-9]+(\.[0-9]+)?$/,
-                        })}
-                        type="number"
-                        id="quantity"
-                        placeholder="Enter the Quantity"
-                      />
-                      {errors.quantity &&
-                        errors.quantity.type === "required" && (
-                          <label className="error-msg">
-                            Please enter the quantity
-                          </label>
-                        )}
-                      {errors.customer &&
-                        errors.quantity.type === "pattern" && (
-                          <label className="error-msg">
-                            Please enter a quantity
-                          </label>
-                        )}
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="form-input">
-                      <label htmlFor="quantity" className="text-left">
-                        Description
-                      </label>
-                      <br />
-                      <input
-                        {...register("description", {
-                          required: true,
-                          pattern: /^[a-zA-Z0-9-'.,() ]+$/,
-                        })}
-                        type="text"
-                        id="description"
-                        placeholder="Enter the Description"
-                      />
-                      {errors.description &&
-                        errors.description.type === "required" && (
-                          <label className="error-msg">
-                            Please enter the description
-                          </label>
-                        )}
-                      {errors.description &&
-                        errors.description.type === "pattern" && (
-                          <label className="error-msg">
-                            Please enter a description
-                          </label>
-                        )}
-                    </div>
-                  </div>
+    <div className="form-div">
+      <form noValidate onSubmit={handleSubmit(handleStockOutDetails)}>
+        <div className="form-row">
+          <div className="form-input">
+            <label htmlFor="quantity">Quantity</label>
+            <br />
+            <input
+              {...register("quantity", {
+                required: true,
+                pattern: /^[0-9]+(\.[0-9]+)?$/,
+              })}
+              type="number"
+              id="quantity"
+              placeholder="Enter the Quantity"
+            />
+            {errors.quantity &&
+              errors.quantity.type === "required" && (
+                <label className="error-msg">
+                  Please enter the quantity
+                </label>
+              )}
+            {errors.customer &&
+              errors.quantity.type === "pattern" && (
+                <label className="error-msg">
+                  Please enter a valid quantity
+                </label>
+              )}
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-input">
+            <label htmlFor="description" className="text-left">
+              Description
+            </label>
+            <br />
+            <input
+              {...register("description", {
+                required: true,
+                pattern: /^[a-zA-Z0-9-'.,() ]+$/,
+              })}
+              type="text"
+              id="description"
+              placeholder="Enter the Description"
+            />
+            {errors.description &&
+              errors.description.type === "required" && (
+                <label className="error-msg">
+                  Please enter the description
+                </label>
+              )}
+            {errors.description &&
+              errors.description.type === "pattern" && (
+                <label className="error-msg">
+                  Please enter a valid description
+                </label>
+              )}
+          </div>
+        </div>
 
-                  <div className="buttons">
-                    <button className="submit-btn" type="submit">
-                      Submit
-                    </button>
-
-                    <button
-                      className="cancel-btn"
-                      type="button"
-                      onClick={() => setModalShow(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </>
+        <div className="buttons">
+          {selectedStockIn.stockInward > 0 ? ( // Check if stockInward is greater than 0
+            <button className="submit-btn" type="submit">
+              Submit
+            </button>
+          ) : (
+            <button
+              className="submit-btn"
+              type="button"
+              disabled // Disable the button if stock quantity is empty
+              onClick={() => toastError("Stock quantity is empty")}
+            >
+              Submit
+            </button>
           )}
+
+          <button
+            className="cancel-btn"
+            type="button"
+            onClick={() => setModalShow(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </>
+)}
+
         </ModalStyle>
       </Wrapper>
     </>

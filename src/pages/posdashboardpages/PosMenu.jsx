@@ -353,7 +353,9 @@ const PosMenu = () => {
                       ActualPrice={item.actualPrice}
                       DiscountPrice={item.discountPrice}
                       itemId={item._id}
+                      Remaining Quantity= {stock}
                       stock={item.quantity}
+                     
                       selectedItem={selectedItems}
                       setSelectedItems={setSelectedItems}
                       Item={item}
@@ -419,6 +421,7 @@ const PosMenu = () => {
                   <div className="heading d-flex justify-content-between">
                     <p>Item</p>
                     <p className="quantity">Quantity</p>
+                    <p className="available-quantity">Available Quantity</p>
                   </div>
                   {selectedItems
                     .concat(HoldMenu ? HoldMenu : [])
@@ -429,6 +432,7 @@ const PosMenu = () => {
                         <div key={index} className="single-item">
                           <p>{item.item && item.item}</p>
                           <p className="quantity">x{item.orderedQuantity}</p>
+                          <p className="available-quantity">{item.stock}</p>
                         </div>
                       );
                     })}

@@ -102,7 +102,7 @@ console.log(data);
                   <input
                     {...register("vendorName", {
                       required: true,
-                      pattern: /^[\p{L}\p{M}'-]+$/u,
+                      pattern: /^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/,
                     })}
                     type="text"
                     id="vendorName"
