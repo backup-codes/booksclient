@@ -8,7 +8,7 @@ import DineInOrderSummaryModal from "./DineInOrderSummaryModal";
 //image imports
 import { Table } from "../../assets/images";
 // backend imports to list the datas
-import { GetDineInData } from "../../config/routeApi/pos";
+import { GetDineInData, posDashboard } from "../../config/routeApi/pos";
 import { toastError } from "../../helpers/helpers";
 
 const Wrapper = styled.div`
@@ -114,6 +114,7 @@ const PosDineIn = () => {
     useState(null);
 
   const [dineInData, setDineInData] = useState([]);
+  const [manager, setManager] = useState({});
 
   useEffect(() => {
     const handleDineInData = async () => {
@@ -139,14 +140,35 @@ const PosDineIn = () => {
     setOpenDineInOrderSummeryModal(false);
   };
 
+  useEffect(() => {
+    const handleManagerData = async () => {
+      try {
+        const response = await posDashboard();
+        if (response.data.success) {
+          setManager(response.data.ManagerData);
+        } else {
+          toastError(response.data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleManagerData();
+  }, []);
+  console.log("manager", manager);
+
+  const dinePOSData = dineInData.filter(
+    (item) => item?.tableId?.posManagerId === manager._id
+  );
+
   return (
     <Wrapper>
       <h4>Dine In</h4>
 
       <div className="dinein-content">
         <div className="card-deck">
-          {dineInData &&
-            dineInData.map((item) => (
+          {dinePOSData &&
+            dinePOSData.map((item) => (
               <Wrapper1 key={item._id}>
                 <Card className="dinein-card">
                   <div className="card-img">
@@ -167,9 +189,7 @@ const PosDineIn = () => {
                       View Order
                     </button>
 
-                    <div>
-                    
-                    </div>
+                    <div></div>
                   </div>
                 </Card>
               </Wrapper1>
@@ -178,19 +198,17 @@ const PosDineIn = () => {
       </div>
 
       {openDineInOrderSummeryModal && (
-                        <DineInOrderSummaryModal
-                          open={openDineInOrderSummeryModal}
-                          onCancel={handleCloseModal}
-                          cancelButtonProps={{ style: { display: "none" } }}
-                          okButtonProps={{ style: { display: "none" } }}
-                          orderDetails={
-                            dineInData.find(
-                              (val) => val._id === openDineInOrderSummeryModal
-                            ) || {}
-                          }
-                        />
-                      )}
-
+        <DineInOrderSummaryModal
+          open={openDineInOrderSummeryModal}
+          onCancel={handleCloseModal}
+          cancelButtonProps={{ style: { display: "none" } }}
+          okButtonProps={{ style: { display: "none" } }}
+          orderDetails={
+            dineInData.find((val) => val._id === openDineInOrderSummeryModal) ||
+            {}
+          }
+        />
+      )}
     </Wrapper>
   );
 };
