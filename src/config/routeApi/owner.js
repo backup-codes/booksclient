@@ -8,8 +8,8 @@ const EmployDetails = async () => {
     console.log(error);
   }
 };
-
-export const getAllRegisteredPos = async () => {
+// Get all the employees
+ const getAllRegisteredPos = async () => {
   try {
     return await restaurantOwnerAxiosInstance.get("getAllRegisteredPos");
   } catch (err) {
@@ -1012,4 +1012,5 @@ export {
   getEmploymentDetailsById,
   updateEmploymentDetails,
   updateEmploymentData,
+  getAllRegisteredPos,
 };

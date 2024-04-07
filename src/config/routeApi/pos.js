@@ -9,62 +9,49 @@ const posDashboard = async (data) => {
   }
 };
 
-
 const updateProfileImage = async (file) => {
   try {
-    
-
     const formData = new FormData();
-     
-      formData.append("profileImage",file)
 
-    return await restaurantPosAxiosInstance.patch("updateProfileImage",
+    formData.append("profileImage", file);
+
+    return await restaurantPosAxiosInstance.patch(
+      "updateProfileImage",
       formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })  
-    
-  }catch (err) {
-    
-
-  }
-}
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  } catch (err) {}
+};
 
 const KotOrder = async (data) => {
   try {
     const response = await restaurantPosAxiosInstance.post("KotOrders", data);
     return response;
-  } catch (error) { 
+  } catch (error) {
     console.log(error);
   }
 };
 
-export const getBromagUniqueOrderId = async ()=>{
+export const getBromagUniqueOrderId = async () => {
   try {
-  
-return await restaurantPosAxiosInstance.get('getUniqueBromagId')
-
+    return await restaurantPosAxiosInstance.get("getUniqueBromagId");
   } catch (err) {
-
     console.log(err);
-    
   }
-}
+};
 
 const GetMenuDataAtPos = async (platform) => {
   try {
-
-
-    console.log(platform,"from the pos");
-return  await restaurantPosAxiosInstance.get("getMenuDataAtPos",
-    {
+    console.log(platform, "from the pos");
+    return await restaurantPosAxiosInstance.get("getMenuDataAtPos", {
       params: {
         platform: platform,
       },
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -100,14 +87,13 @@ const PrintBill = async (userId) => {
 //   }
 // };
 
-
 export const GetClosingFieldData = async () => {
   try {
-    return restaurantPosAxiosInstance.get('GetClosingFieldData')
+    return restaurantPosAxiosInstance.get("GetClosingFieldData");
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 const PosExpenseData = async () => {
   try {
@@ -118,9 +104,11 @@ const PosExpenseData = async () => {
   }
 };
 
-const fetchTodaysfloatingCash  = async () => {
+const fetchTodaysfloatingCash = async () => {
   try {
-    const response = await restaurantPosAxiosInstance.get("fetchTodaysfloatingCash");
+    const response = await restaurantPosAxiosInstance.get(
+      "fetchTodaysfloatingCash"
+    );
     return response;
   } catch (error) {
     console.log(error);
@@ -128,56 +116,35 @@ const fetchTodaysfloatingCash  = async () => {
 };
 
 const fetchOpeningData = async () => {
-  
-  return await restaurantPosAxiosInstance.get(
-    `getOpeningData`)
-}
+  return await restaurantPosAxiosInstance.get(`getOpeningData`);
+};
 const fetchTodaysOpeningData = async () => {
-  
-  return await restaurantPosAxiosInstance.get(
-    `getTodayOpeningData`)
-  
-}
+  return await restaurantPosAxiosInstance.get(`getTodayOpeningData`);
+};
 
 const searchTodaysExpense = async (query) => {
-  
-  return await restaurantPosAxiosInstance.get(
-    `searchTodaysExpense/${query}`)
-  
-}
+  return await restaurantPosAxiosInstance.get(`searchTodaysExpense/${query}`);
+};
 export const searchTodayOpening = async (query) => {
-  
-  return await restaurantPosAxiosInstance.get(
-    `searchTodayOpening/${query}`)
-  
-}
-export const searchTodayClosing= async (query) => {
-  
-  return await restaurantPosAxiosInstance.get(
-    `searchTodayClosing/${query}`)
-  
-}
+  return await restaurantPosAxiosInstance.get(`searchTodayOpening/${query}`);
+};
+export const searchTodayClosing = async (query) => {
+  return await restaurantPosAxiosInstance.get(`searchTodayClosing/${query}`);
+};
 
-
-
-export const getAllOpeningDateFilter = async ( date) => {
+export const getAllOpeningDateFilter = async (date) => {
   try {
     return await restaurantPosAxiosInstance.get("getAllOpeningDateFilter", {
       params: { date },
     });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 };
 
 const fetchExpenseData = async () => {
-  
-return await restaurantPosAxiosInstance.get(
-  `getExpenseData`)
-  
-}
-
-
+  return await restaurantPosAxiosInstance.get(`getExpenseData`);
+};
 
 const PassbookDateFilter = async (data) => {
   try {
@@ -201,7 +168,6 @@ const TodaysClosingDateFilter = async (data) => {
     console.log(error);
   }
 };
-
 
 const expenseDateFilter = async (data) => {
   try {
@@ -278,16 +244,15 @@ const UpdateLeads = async (leadId, data) => {
 
 const OnlineData = async () => {
   try {
-   
     const response = await restaurantPosAxiosInstance.get("onlineData");
-console.log(response,"happy respons");
+    console.log(response, "happy respons");
 
     return response;
   } catch (error) {
     console.log(error);
   }
 };
-
+// To list the dine data
 const GetDineInData = async () => {
   try {
     const response = await restaurantPosAxiosInstance.get("getDineIn");
@@ -297,28 +262,25 @@ const GetDineInData = async () => {
   }
 };
 
-
-const getEmployeesData= async()=>{
-  return await restaurantPosAxiosInstance.get(
-    `getAllcustomerDetails`
-  );
-}
+const getEmployeesData = async () => {
+  return await restaurantPosAxiosInstance.get(`getAllcustomerDetails`);
+};
 
 const getEmployeeBill = async () => {
-  return await restaurantPosAxiosInstance.get(
-    `getAllcustomerBill`
-  );
-}
+  return await restaurantPosAxiosInstance.get(`getAllcustomerBill`);
+};
 
 const TakeAwayUserToLead = async (data) => {
   try {
-    const response = await restaurantPosAxiosInstance.post("takeAwayUserToLead", data);
+    const response = await restaurantPosAxiosInstance.post(
+      "takeAwayUserToLead",
+      data
+    );
     return response;
   } catch (error) {
     console.log(error);
   }
 };
-
 
 const HoldItemsAtPos = async (data) => {
   try {
@@ -359,6 +321,5 @@ export {
   fetchTodaysfloatingCash,
   expenseDateFilter,
   TakeAwayUserToLead,
-  HoldItemsAtPos
-  
+  HoldItemsAtPos,
 };

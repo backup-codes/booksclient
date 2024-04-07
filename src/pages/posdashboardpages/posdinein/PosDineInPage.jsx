@@ -9,15 +9,18 @@ import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 //component imports
 import DineInSummeryModal from "../../../components/poscomponents/DineInSummeryModal.jsx";
-//backend imports
-import { GetDineInData } from "../../../config/routeApi/pos.js";
+//backend imports to list the dine data
+import { GetDineInData, posDashboard } from "../../../config/routeApi/pos.js";
+import { toastError } from "../../../helpers/helpers.js";
 
 const PosDineInPage = () => {
   const [DineIn, setDineIn] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [showSelectedItemId, setShowSelectedItemId] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [manager, setManager] = useState({});
 
+  // getting dine orders
   useEffect(() => {
     const handleDineIn = async () => {
       try {
@@ -31,13 +34,30 @@ const PosDineInPage = () => {
     handleDineIn();
   }, []);
 
+  useEffect(() => {
+    const handleManagerData = async () => {
+      try {
+        const response = await posDashboard();
+        if (response.data.success) {
+          setManager(response.data.ManagerData);
+        } else {
+          toastError(response.data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleManagerData();
+  }, []);
+  console.log("manager", manager);
+
   const handleViewDetails = (itemId) => {
     setSelectedItemId(itemId);
-    setShowSelectedItemId(true)
+    setShowSelectedItemId(true);
   };
 
   const handleCloseModal = () => {
-    setShowSelectedItemId(false)
+    setShowSelectedItemId(false);
     setSelectedItemId(null);
   };
 
@@ -45,19 +65,23 @@ const PosDineInPage = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredDineIn = DineIn.filter((item) =>
-    Object.values(item).some((value) => {
-      if (typeof value === "number") {
-        return value
-          .toString()
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      } else if (typeof value === "string") {
-        return value.toLowerCase().includes(searchTerm.toLowerCase());
-      }
-      return false;
-    })
+  const filteredDineIn = DineIn.filter(
+    (item) =>
+      Object.values(item).some((value) => {
+        if (typeof value === "number") {
+          return value
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+        } else if (typeof value === "string") {
+          return value.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        return false;
+      }) && item?.tableId?.posManagerId === manager._id
   );
+
+  const getposId = filteredDineIn.filter((item) => item?.tableId?.posManagerId);
+  console.log("filteredDine", getposId);
 
   //TABLE HEADING DATA
   const tableHeading = [
@@ -136,8 +160,6 @@ const PosDineInPage = () => {
                           </div>
                         </div>
                       </td>
-
-                 
                     </tr>
                   );
                 })}
@@ -147,14 +169,14 @@ const PosDineInPage = () => {
       </div>
 
       {selectedItemId && (
-                        <DineInSummeryModal
-                        open={showSelectedItemId}
-                        onCancel={handleCloseModal}
-                        cancelButtonProps={{ style: { display: "none" } }}
-                        okButtonProps={{ style: { display: "none" } }}
-                        selectedOrder={selectedItemId}
-                        />
-                      )}
+        <DineInSummeryModal
+          open={showSelectedItemId}
+          onCancel={handleCloseModal}
+          cancelButtonProps={{ style: { display: "none" } }}
+          okButtonProps={{ style: { display: "none" } }}
+          selectedOrder={selectedItemId}
+        />
+      )}
     </Wrapper>
   );
 };
