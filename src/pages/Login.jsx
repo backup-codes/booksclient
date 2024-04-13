@@ -10,18 +10,17 @@ import { IoPersonSharp, IoEye, IoEyeOff } from "react-icons/io5";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { RestaurantAdminApi } from "../config/global";
 import Uploading from "../components/loaders/Uploading";
+import "./Login.css";
 
 const Login = () => {
-
   //password hide and show usestate start
   const [show, setShow] = useState(false);
   const [isUploading, setUploading] = useState(false);
 
   const handleShow = () => {
     setShow(!show);
-  }
+  };
   //password hide and show usestate end
-
 
   const {
     register,
@@ -32,15 +31,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (data) => {
-    setUploading(true)
+    setUploading(true);
 
     const response = await axios.post(`${RestaurantAdminApi}login`, {
       data: data,
     });
-    setUploading(false)
-  
+    setUploading(false);
+
     if (response.data.success) {
-      
       navigate("/email-verification");
     } else if (response.data === "Server Busy") {
       console.log("verify your email id");
@@ -48,13 +46,12 @@ const Login = () => {
   };
 
   return (
-
     <>
-      {isUploading ? (<Uploading isUploading={isUploading} />) : null}
+      {isUploading ? <Uploading isUploading={isUploading} /> : null}
       <Wrapper>
-        <div className="login-page">
-          <div className="left-div">
-            <h1 className='heading'>Log in</h1>
+        <div className="login-page  ">
+          <div className="left-div ">
+            <h1 className="heading">Log in</h1>
           </div>
 
           <div className="right-div">
@@ -67,38 +64,39 @@ const Login = () => {
             <Logo className="logo" />
             <form onSubmit={handleSubmit(handleLoginSubmit)}>
               <div className="form-input">
-                <span><IoPersonSharp /></span>
+                <span>
+                  <IoPersonSharp />
+                </span>
                 <input
                   {...register("username", { required: true })}
                   type="username"
-
                   id="username"
                   placeholder="User name"
                 />
-
               </div>
               {errors.username && errors.username.type === "required" && (
                 <label>* Please enter the username</label>
               )}
               <div className="form-input">
-                <span><RiLockPasswordFill /></span>
+                <span>
+                  <RiLockPasswordFill />
+                </span>
                 <input
                   {...register("password", { required: true })}
                   type={show ? "text" : "password"}
                   id="password"
                   placeholder="Password"
-
                 />
-                <button type="button" className="eye-btn" onClick={handleShow}>{show ? <IoEyeOff /> : <IoEye />}</button>
+                <button type="button" className="eye-btn" onClick={handleShow}>
+                  {show ? <IoEyeOff /> : <IoEye />}
+                </button>
               </div>
               {errors.password && errors.password.type === "required" && (
                 <label>* Please enter the password</label>
               )}
-              <Link to='/forgot-password'>Forgot password?</Link>
+              <Link to="/forgot-password">Forgot password?</Link>
               <div>
-                <button type="submit">
-                  Log in
-                </button>
+                <button type="submit">Log in</button>
               </div>
             </form>
           </Container>

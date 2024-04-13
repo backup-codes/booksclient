@@ -1,5 +1,6 @@
-import { BgBlob, SemiCircle, BgBoy } from "../assets/images"
-import Styled from 'styled-components'
+import { BgBlob, SemiCircle, BgBoy } from "../assets/images";
+import Styled from "styled-components";
+import "./EmailVerification.css";
 
 const Wrapper = Styled.div`
 width: 100vw;
@@ -53,6 +54,7 @@ display: flex;
     display: none;
 }
 
+
 .right-div{
  width: 100%;
  padding: 0px 0px;
@@ -68,22 +70,19 @@ display: flex;
 `;
 
 const EmailVerification = () => {
-    return (
-        <Wrapper>
-
-            <div className="left-div">
-                <img src={BgBoy} alt="" />
-            </div>
-            <div className="right-div">
-                <img className='bg-blob' src={BgBlob} alt="" />
-                <div className='right-div-content'>
-                    <p>
-                        We have sent an e-mail link
-                    </p>
-                    <h3>check you e-mail to login</h3>
-                </div>
-            </div>
-        </Wrapper>
-    )
-}
-export default EmailVerification
+  return (
+    <Wrapper>
+      <div className="left-div">
+        <img src={BgBoy} alt="" />
+      </div>
+      <div className="right-div">
+        <img className="bg-blob" src={BgBlob} alt="" />
+        <div className="right-div-content">
+          <p>We have sent an e-mail link</p>
+          <h3>check you e-mail to login</h3>
+        </div>
+      </div>
+    </Wrapper>
+  );
+};
+export default EmailVerification;
