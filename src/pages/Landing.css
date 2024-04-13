@@ -1,0 +1,44 @@
+@media screen and (max-width: 768px) {
+
+    .subcontent {
+        padding: 0px !important;
+    }
+
+    .right-subcontent {
+        justify-content: center !important;
+    }
+
+    .right-subcontent-img {
+        position: relative !important;
+        left: 0px !important;
+        top: 0% !important;
+    }
+
+
+
+    .right-sub-content,
+    .left-sub-content {
+        display: none;
+    }
+
+    .left-subcontent-bg {
+        position: relative !important;
+    }
+
+    .left-subcontent-img2,
+    .left-subcontent-img {
+        position: relative !important;
+        left: 0px !important;
+        top: 0% !important;
+
+    }
+
+    .left-subcontent-img {
+
+        width: 80%;
+        margin: 40px;
+    }
+
+
+
+}

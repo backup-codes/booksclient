@@ -8,11 +8,7 @@ import { FaUpload } from "react-icons/fa6";
 //backend updates
 import { useForm } from "react-hook-form";
 
-import {
-  AddTableData,
-  CaptainList,
-  getAllRegisteredPos,
-} from "../../../config/routeApi/owner";
+import { AddTableData, CaptainList } from "../../../config/routeApi/owner";
 import { useEffect, useState } from "react";
 import Uploading from "../../../components/loaders/Uploading";
 import { toastError, toastSuccess } from "../../../helpers/helpers";
@@ -23,7 +19,6 @@ const AddTable = () => {
   const [tableImage, setTableImage] = useState("");
   const [isUploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-  const [registeredPosManager, setRegisteredPosManagers] = useState([]);
 
   const {
     register,
@@ -61,7 +56,7 @@ const AddTable = () => {
 
   const handleTableSubmit = async (data) => {
     setUploading(true);
-    console.log("resultable", data);
+
     const formData = new FormData();
     formData.append("image", tableImage);
     for (const key in data) {
@@ -78,25 +73,6 @@ const AddTable = () => {
       toastError(response.data.message);
     }
   };
-
-  useEffect(() => {
-    const GetAllRegisteredPos = async () => {
-      try {
-        const { data } = await getAllRegisteredPos();
-
-        if (data.success) {
-          console.log("first", data);
-          setRegisteredPosManagers(data.RegisteredPosManagers);
-        } else {
-          toastError(data.message);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    GetAllRegisteredPos();
-  }, []);
 
   return (
     <>
@@ -167,8 +143,7 @@ const AddTable = () => {
                   </select>
                   {errors.captain && errors.captain.type === "required" && (
                     <label className="error-msg">
-                      Please select a captain
-                      <span className="text-danger">*</span>
+                      Please select a captain<span className="text-danger">*</span>
                     </label>
                   )}
                 </div>
@@ -197,14 +172,11 @@ const AddTable = () => {
                     </label>
                   </label>
 
-                  {!imagePreview &&
-                    errors.image &&
-                    errors.image.type === "required" && (
-                      <label className="error-msg">
-                        Please upload an image of table
-                        <span className="text-danger">*</span>
-                      </label>
-                    )}
+                  {!imagePreview &&errors.image  && errors.image.type === "required" && (
+                    <label className="error-msg">
+                      Please upload an image of table<span className="text-danger">*</span>
+                    </label>
+                  )}
                 </div>
                 {imagePreview && (
                   <div className="col-md-5 mt-3">
@@ -219,23 +191,6 @@ const AddTable = () => {
                   </div>
                 )}
               </div>
-
-              <select className="form-select" {...register("posManagerId")}>
-                <option value="">Choose POS</option>
-                {registeredPosManager &&
-                  registeredPosManager.map((posManager) => (
-                    <option key={posManager._id} value={posManager._id}>
-                      {posManager.username}
-                    </option>
-                  ))}
-              </select>
-              {errors.posManagerId &&
-                errors.posManagerId.type === "required" && (
-                  <label className="error-msg">
-                    Please select a posManagerId
-                    <span className="text-danger">*</span>
-                  </label>
-                )}
 
               <div className="buttons">
                 <Button className="submit-btn" type="submit">

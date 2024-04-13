@@ -1,0 +1,24 @@
+@media screen and (max-width: 768px) {
+
+    /* CSS rules for screens with a maximum width of 768 pixels */
+    .login-page {
+        display: block;
+    }
+
+    .left-div {
+        width: 0%;
+    }
+
+    .left-div>.heading {
+        left: -70px;
+    }
+
+    .right-div {
+        width: 100%;
+    }
+
+    .container {
+        width: 100% !important;
+        left: 0 !important
+    }
+}

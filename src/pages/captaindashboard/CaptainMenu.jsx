@@ -27,11 +27,12 @@ import { toastError, toastSuccess } from "../../helpers/helpers";
 
 const CaptainMenu = () => {
   const [registeredPosManager, setRegisteredPosManagers] = useState([]);
+  const [selectedPOSManager, setSelectedPosManager] = useState("All");
   // const [todaysData, setTodaysData] = useState([]);
   const [modalKot, setModalKot] = useState(false);
   const [modalHold, setModalHold] = useState(false);
   const [modalPrintBill, setModalPrintBill] = useState(false);
-  const [kotId, setKotId] = useState(null);
+  // const [kotId, setKotId] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
@@ -48,8 +49,6 @@ const CaptainMenu = () => {
   const location = useLocation();
   const data = location.state ? location.state.data : null;
 
-  console.log("dtaa......", data);
-
   const handleTotalPrice = (total) => {
     setTotalPrice(total);
   };
@@ -62,9 +61,9 @@ const CaptainMenu = () => {
     setSelectedItems(items);
   };
 
-  const handleKotIdChange = (newKotId) => {
-    setKotId(newKotId);
-  };
+  // const handleKotIdChange = (newKotId) => {
+  //   setKotId(newKotId);
+  // };
 
   const handleModalKotOpen = () => {
     if (totalPrice == 0) {
@@ -88,8 +87,14 @@ const CaptainMenu = () => {
     const fetchOrderedData = async () => {
       try {
         const response = await OrderedDataAtCap(data._id);
-        console.log(response, "i am response");
-        setOrderedData(response.data.orderedData);
+
+        const newOrderData = response.data.orderedData;
+        console.log("i am response", newOrderData);
+        const NeworderedData = newOrderData?.map((item) => ({
+          ...item,
+          posManagerId: selectedPOSManager,
+        }));
+        setOrderedData(NeworderedData);
       } catch (error) {
         console.log(error);
       }
@@ -98,6 +103,8 @@ const CaptainMenu = () => {
       fetchOrderedData();
     }
   }, [modalKot]);
+
+  console.log("newordered", ordered);
 
   const handleHoldSubmit = async () => {
     try {
@@ -360,6 +367,18 @@ const CaptainMenu = () => {
                 >
                   <FaPrint className="btn-icon " /> Send to
                 </button>
+                <select
+                  className="form-select"
+                  value={selectedPOSManager}
+                  onChange={(e) => setSelectedPosManager(e.target.value)}
+                >
+                  <option value="All">All</option>
+                  {registeredPosManager.map((posManager) => (
+                    <option key={posManager._id} value={posManager._id}>
+                      {posManager.username}
+                    </option>
+                  ))}
+                </select>
               </div>
             ) : (
               <button
@@ -381,6 +400,7 @@ const CaptainMenu = () => {
               okButtonProps={{ style: { display: "none" } }}
               ordered={ordered}
               tableName={data.tableName}
+              posManager={selectedPOSManager}
             />
           </div>
         </div>

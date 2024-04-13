@@ -10,31 +10,30 @@ import { toastError, toastSuccess } from "../../helpers/helpers";
 import ViewDineInOrdersModal from "./ViewDineInOrdersModal";
 
 const TableCard = (props) => {
-  const { tableData, image, noOfSeats, tableNo } = props;
+  const {tableData, image, noOfSeats, tableNo } = props;
   // const [isUploading, setUploading] = useState(false);
-  const [modalView, setModalView] = useState(false);
-  console.log(tableData, "tableData");
-  const navigate = useNavigate();
+  const [modalView,setModalView] = useState(false)
+console.log(tableData,"tableData");
+  const navigate = useNavigate()
+
 
   const handleToggleChange = async () => {
     try {
       // setUploading(true)
       if (!tableData.isBooked) {
+        
         const updatedIsShared = !props.toggleState;
         props.handleToggleChange(props.tableId);
-
-        const response = await UpdateTableActive(
-          props.tableId,
-          updatedIsShared
-        );
+        
+        const response = await UpdateTableActive(props.tableId, updatedIsShared);
         // setUploading(false)
-
+        
         if (!response.success) {
           props.handleToggleChange(props.tableId);
           console.error("Failed to update isShared property");
         }
       } else {
-        toastError("Table is reserved");
+        toastError("Table is reserved")
       }
     } catch (error) {
       console.error("Error updating menu:", error);
@@ -42,7 +41,7 @@ const TableCard = (props) => {
   };
 
   useEffect(() => {
-    console.log("i am table data", tableData);
+    console.log("i am table data",tableData);
     // props.onDelete();
   }, [props.refresh]);
 
@@ -52,29 +51,33 @@ const TableCard = (props) => {
 
   const handleTableDrop = async (tableId) => {
     try {
-      if (!tableData.isBooked) {
-        // setUploading(true)
-        const response = await DeleteTable(tableId);
-        // setUploading(false)
 
-        props.onDelete(tableId);
+      if (!tableData.isBooked) { 
+      // setUploading(true)
+      const response = await DeleteTable(tableId);
+      // setUploading(false)
 
-        toastSuccess(response.data.message);
-      } else {
-        toastError("Deletion Failed : Table already reserved");
-      }
+      props.onDelete(tableId);
+     
+
+      toastSuccess(response.data.message)
+    } else {
+        toastError("Deletion Failed : Table already reserved")
+    }
     } catch (error) {
+      
       console.log(error);
       // toast.success(response.data.message);
     }
   };
   const handleModalView = async () => {
     try {
-      setModalView(true);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      setModalView(true)
+      
+    } catch(err) {
+    console.log(err);  
+   }
+}
 
   // useEffect(() => { }, [props.refresh]);
   return (
@@ -98,6 +101,7 @@ const TableCard = (props) => {
 
             <div className="delete-edit">
               <span className="action-icon edit-icon">
+
                 <MdEdit
                   onClick={() => {
                     handleEditTable(props.tableId);
@@ -130,29 +134,23 @@ const TableCard = (props) => {
               >
                 {noOfSeats} Seaters
               </p>
-              <p className="truncate" style={{ fontSize: "12px" }}>
-                Table Access: {props.access}
-              </p>
+              <p className="truncate" style={{ fontSize: "12px" }}>Table Access: {props.access}</p>
             </div>
           </div>
-
-          {tableData.isBooked && tableData.Amount && (
-            <button className="view-button" onClick={() => handleModalView()}>
-              View Order
-            </button>
-          )}
+          
+          {tableData.isBooked && tableData.Amount &&
+            (<button className="view-button" onClick={() => handleModalView()}>View Order</button>)}
         </div>
       </Wrapper>
-
-      {tableData.isBooked && tableData.Amount && (
-        <ViewDineInOrdersModal
-          open={modalView}
-          onCancel={() => setModalView(false)}
-          ordered={tableData.KotItems}
-          amount={tableData.Amount}
-        />
-      )}
+      
+  { tableData.isBooked  && tableData.Amount && (<ViewDineInOrdersModal
+        open={modalView}
+        onCancel={() => setModalView(false)}
+        ordered={tableData.KotItems}
+        amount={tableData.Amount}
+      />)}
     </>
+
   );
 };
 export default TableCard;
