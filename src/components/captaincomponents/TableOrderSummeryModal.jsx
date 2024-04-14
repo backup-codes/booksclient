@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 import Wrapper from "../../assets/wrappers/poswrappers/PosFormModal";
 // import Wrapper from "../../assets/wrappers/poswrappers/PosFormModal";
@@ -19,7 +18,6 @@ const TableOrderSummeryModal = (props) => {
   const [restaurant, setRestaurant] = useState(0);
   const [gstAmount, setGST] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (ordered && ordered[0]) {
@@ -28,6 +26,8 @@ const TableOrderSummeryModal = (props) => {
       setGST(gstAmount);
       setGrandTotal(grandTotal);
     }
+
+    console.log(ordered, "orderedorderedordered");
 
     const kotItems = ordered
       .filter((item) => item.KotItems && item.KotItems.length > 0)
@@ -72,8 +72,8 @@ const TableOrderSummeryModal = (props) => {
 
       if (response?.data.success) {
         props.onCancel();
-        navigate("/captain-dashboard");
-
+        // navigate("/captain-dashboard");
+        console.log("resulupos", response?.data);
         toastSuccess(response?.data.message);
       } else {
         toastError(response.data.message);
