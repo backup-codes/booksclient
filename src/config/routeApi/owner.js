@@ -9,7 +9,7 @@ const EmployDetails = async () => {
   }
 };
 // Get all the employees
- const getAllRegisteredPos = async () => {
+const getAllRegisteredPos = async () => {
   try {
     return await restaurantOwnerAxiosInstance.get("getAllRegisteredPos");
   } catch (err) {
@@ -436,7 +436,6 @@ const MenuData = async () => {
 
 export const CustomerDetailssearchQuery = async (searchquery) => {
   try {
-    
     return await restaurantOwnerAxiosInstance.get(
       `customerDetail/${searchquery}`
     );
@@ -539,20 +538,32 @@ export const UpdateOnlineAggregatorPrices = async ({
   itemId,
   actualPrice,
   discountPrice,
+  Item,
+  description,
+  Quantity,
+  Cuisine,
+  subCuisine,
+  itemType,
 }) => {
   try {
-
-    
-   const data= {
-      plateform, itemId, actualPrice, discountPrice
-    }
-
+    const data = {
+      plateform,
+      itemId,
+      actualPrice,
+      discountPrice,
+      item: Item,
+      description,
+      quantity: Quantity,
+      itemType,
+      subCategory: subCuisine,
+      category: Cuisine,
+    };
 
     console.log(data, "formdataa");
 
     const response = await restaurantOwnerAxiosInstance.patch(
       "updateOnlineAggregatorPrices",
-      {data}
+      { data }
     );
     return response;
   } catch (error) {
@@ -669,15 +680,13 @@ const getMenuById = async (menuId, plateform) => {
   }
 };
 
-
-export const GetRestaurantDetail = async ()=>{
+export const GetRestaurantDetail = async () => {
   try {
     return await restaurantOwnerAxiosInstance.get("GetRestaurantDetail");
-  } catch(err) {
-console.log(err);
+  } catch (err) {
+    console.log(err);
   }
-}
-
+};
 
 const getAllSalesReport = async (POSManager, date) => {
   try {
@@ -827,14 +836,11 @@ const GetTableById = async (tableId) => {
 
 const UpdateTableData = async (tableId, data) => {
   try {
-
     const response = await restaurantOwnerAxiosInstance.post(
       `updateTableData/${tableId}`,
       data
     );
     return response;
-
-    
   } catch (error) {
     console.log(error);
   }
@@ -868,9 +874,6 @@ const CaptainList = async () => {
     console.log(error);
   }
 };
-
-
-
 
 export const TodaysOrderDataOfCap = async () => {
   try {
